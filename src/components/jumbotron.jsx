@@ -1,23 +1,48 @@
 import React, { Component } from "react";
 import { Jumbotron } from "reactstrap";
-//import { url } from "inspector";
+import "../styles/jumbotron.css";
 
 class JumbotronComponent extends Component {
   render() {
     return (
       <div>
-        <Jumbotron>
-          <h1 className="display-3" style={{ marginLeft: 200 }}>
+        <Jumbotron
+          style={{
+            backgroundImage:
+              "url(" +
+              "https://43wli92bfqd835mbif2ms9qz-wpengine.netdna-ssl.com/wp-content/uploads/ECI_JOBS_slider.jpg" +
+              ")",
+
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            height: 350
+          }}
+        >
+          <h1
+            className="display-3"
+            style={{
+              marginLeft: 200,
+              fontFamily: "Josefin Sans",
+              fontSize: 70
+            }}
+          >
             Hire Workers!
           </h1>
-          <p className="lead" style={{ marginLeft: 200 }}>
-            Make things happen
+          <p
+            className="lead"
+            style={{
+              marginLeft: 200,
+              fontFamily: "Shadows Into Light",
+              fontSize: 30
+            }}
+          >
+            Make things happen.
           </p>
           <hr className="my-2" />
-          <p style={{ marginLeft: 200 }}>
+          {/* <p style={{ marginLeft: 200 }}>
             Get matched to top talent in minutes through our Sri Lankan network
             of skilled people.
-          </p>
+          </p> */}
         </Jumbotron>
       </div>
     );

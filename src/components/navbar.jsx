@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/navbar.css";
 import {
   Collapse,
   Navbar,
@@ -33,7 +34,12 @@ export default class NavbarComponent extends React.Component {
       <div>
         <Navbar color="light" className="mx-auto" light expand="md">
           <Container style={{ marginTop: 20, marginBottom: 20 }}>
-            <NavbarBrand href="/">Find Your Worker</NavbarBrand>
+            <NavbarBrand
+              href="/"
+              style={{ fontFamily: "Courgette", fontSize: 20 }}
+            >
+              Find Your Worker
+            </NavbarBrand>
             <Form inline>
               <FormGroup>
                 <Input
@@ -43,7 +49,7 @@ export default class NavbarComponent extends React.Component {
                   placeholder="Find Services"
                 />
               </FormGroup>
-              <Button color="success" style={{ marginLeft: 5 }}>
+              <Button color="success" style={{ marginLeft: 10 }}>
                 Search
               </Button>
             </Form>
@@ -51,12 +57,10 @@ export default class NavbarComponent extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/components/">LOG IN</NavLink>
+                  <NavLink href="/components/"> LOG IN </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://github.com/reactstrap/reactstrap">
-                    SIGN UP
-                  </NavLink>
+                  <NavLink href="/components/">SIGN UP</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>
