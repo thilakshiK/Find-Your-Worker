@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import NavbarComponent from "./navbar";
+import NavbarComponent from "../Navbar/welcomenav";
 import JumbotronComponent from "./jumbotron";
+import { Link } from "react-router-dom";
 
 export default class WelcomeComponent extends Component {
   render() {
