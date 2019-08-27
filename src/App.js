@@ -2,8 +2,8 @@ import React from "react";
 //import logo from "./logo.svg";
 import "./App.css";
 import WelcomeComponent from "./components/Welcome/welcome";
-import LoginFormComponent from "./components/login";
-import SingupFormComponent from "./components/signup";
+import LoginFormComponent from "./components/Login/login";
+import SingupFormComponent from "./components/Signup/signup";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {

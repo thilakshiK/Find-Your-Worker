@@ -1,5 +1,6 @@
 import React from "react";
-import "../../styles/font.css";
+//import "../../styles/font.css";
+import "../../assets/styles/font.css";
 import {
   Collapse,
   Navbar,
@@ -41,7 +42,7 @@ export default class NavbarComponent extends React.Component {
             >
               Find Your Worker
             </NavbarBrand>
-            <Form inline>
+            {/* <Form inline>
               <FormGroup>
                 <Input
                   type="search"
@@ -53,7 +54,7 @@ export default class NavbarComponent extends React.Component {
               <Button color="success" style={{ marginLeft: 10 }}>
                 Search
               </Button>
-            </Form>
+            </Form> */}
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>

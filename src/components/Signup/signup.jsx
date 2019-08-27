@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import "../styles/font.css";
-import "./simplenav";
-import SimpleNavComponent from "./simplenav";
+import "../../assets/styles/font.css";
+import "../Navbar/simplenav";
+import SimpleNavComponent from "../Navbar/simplenav";
 import { BrowserRouter as router, Link } from "react-router-dom";
 export default class SingupFormComponent extends React.Component {
   render() {
