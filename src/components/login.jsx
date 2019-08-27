@@ -3,13 +3,20 @@ import { Button, Form, FormGroup, Input } from "reactstrap";
 import "../styles/font.css";
 import "./simplenav";
 import SimpleNavComponent from "./simplenav";
+import { BrowserRouter as router, Link } from "react-router-dom";
 export default class LoginFormComponent extends React.Component {
   render() {
     return (
       <div>
         <SimpleNavComponent />
         <Form style={{ margin: "auto", width: 400, marginTop: 100 }}>
-          <h3 style={{ fontFamily: "Josefin Sans", textAlign: "center" , marginBottom : 20}}>
+          <h3
+            style={{
+              fontFamily: "Josefin Sans",
+              textAlign: "center",
+              marginBottom: 20
+            }}
+          >
             Log in and get to work
           </h3>
           <FormGroup>
@@ -28,7 +35,19 @@ export default class LoginFormComponent extends React.Component {
               placeholder="Password "
             />
           </FormGroup>
-          <Button color="success" style ={{marginLeft : 150 , marginTop : 30}}>Submit</Button>
+          <Button color="success" style={{ marginLeft: 160, marginTop: 30 }}>
+            Login
+          </Button>
+
+          <h6
+            style={{
+              fontFamily: "Josefin Sans",
+              textAlign: "center",
+              marginTop: 20
+            }}
+          >
+            New to Find Your Worker? <Link to="/signup"> Sign Up </Link>
+          </h6>
         </Form>
       </div>
     );

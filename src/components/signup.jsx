@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import "../styles/font.css";
 import "./simplenav";
 import SimpleNavComponent from "./simplenav";
+import { BrowserRouter as router, Link } from "react-router-dom";
 export default class SingupFormComponent extends React.Component {
   render() {
     return (
@@ -24,6 +25,15 @@ export default class SingupFormComponent extends React.Component {
               name="name"
               id="examplename"
               placeholder="Name"
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Input
+              type="email"
+              name="email"
+              id="exampleemail"
+              placeholder="Email"
             />
           </FormGroup>
           <FormGroup>
@@ -51,6 +61,16 @@ export default class SingupFormComponent extends React.Component {
           <Button color="success" style={{ marginLeft: 140, marginTop: 30 }}>
             Sign Me Up
           </Button>
+
+          <h6
+            style={{
+              fontFamily: "Josefin Sans",
+              textAlign: "center",
+              marginTop: 20
+            }}
+          >
+            Already have an account? <Link to="/login"> Log In </Link>
+          </h6>
         </Form>
       </div>
     );
