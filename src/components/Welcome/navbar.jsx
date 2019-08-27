@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/navbar.css";
+import "../../styles/font.css";
 import {
   Collapse,
   Navbar,
@@ -7,13 +7,14 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Form,
   FormGroup,
   Input,
   Button,
   Container
 } from "reactstrap";
+
+import { BrowserRouter as router, Link } from "react-router-dom";
 
 export default class NavbarComponent extends React.Component {
   constructor(props) {
@@ -57,10 +58,12 @@ export default class NavbarComponent extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/components/"> LOG IN </NavLink>
+                  <Link to="/login"> LOG IN </Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/components/">SIGN UP</NavLink>
+                  <Link to="/signup" style={{ margin: 30 }}>
+                    SIGN UP
+                  </Link>
                 </NavItem>
               </Nav>
             </Collapse>
