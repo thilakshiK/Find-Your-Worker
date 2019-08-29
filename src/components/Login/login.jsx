@@ -3,7 +3,8 @@ import { Button, Form, FormGroup, Input } from "reactstrap";
 import "../../assets/styles/font.css";
 //import "../simplenav";
 import SimpleNavComponent from "../Navbar/simplenav";
-import { BrowserRouter as router, Link } from "react-router-dom";
+import { BrowserRouter as router, Link   } from "react-router-dom";
+
 export default class LoginFormComponent extends React.Component {
   render() {
     return (
