@@ -1,18 +1,21 @@
 import React, { Component } from "react";
 import WorkerNavComponent from "../Navbar/workernav";
 import "../../assets/styles/font.css";
+import WorkerProfileComponent from "./workerProfile";
 
-class WorkerHome extends Component {
+
+class WorkerHomeComponent extends Component {
   state = {};
   render() {
     return (
       <div>
         <WorkerNavComponent />
+        <WorkerProfileComponent />
       </div>
     );
   }
 }
 
-export default WorkerHome;
+export default WorkerHomeComponent;
 
 //this component should be executed when worker clicked login

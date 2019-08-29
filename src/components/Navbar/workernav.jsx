@@ -10,8 +10,10 @@ import {
   Dropdown,
   DropdownItem,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
+  UncontrolledDropdown
 } from "reactstrap";
+import { BrowserRouter as router, Link } from "react-router-dom";
 
 export default class WorkerNavComponent extends Component {
   constructor(props) {
@@ -34,7 +36,7 @@ export default class WorkerNavComponent extends Component {
           <Container style={{ marginTop: 20, marginBottom: 20 }}>
             <NavbarBrand
               href="/"
-              style={{ fontFamily: "Courgette", fontSize: 20 }}
+              style={{ fontFamily: "Courgette", fontSize: 20 , marginLeft : 15}}
             >
               Find Your Worker
             </NavbarBrand>
@@ -45,18 +47,32 @@ export default class WorkerNavComponent extends Component {
             </Collapse>
           </Container>
 
-          <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-            <DropdownToggle nav caret>
-              {/* Dropdown */}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Profile</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Logout</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <Nav className="" navbar style={{fontFamily: "Josefin Sans"}}>
+              
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  {/* add profile picture */}
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    My Profile
+                  </DropdownItem>
+                  <DropdownItem>
+                   Requests
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem >
+                     <Link to="/"> Log Out </Link>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
         </Navbar>
+
+       
       </div>
-    );
+
+      
+    ); //
   }
 }
