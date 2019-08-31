@@ -12,7 +12,7 @@ import {
   Container
 } from "reactstrap";
 
-import { BrowserRouter as router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class NavbarComponent extends React.Component {
   constructor(props) {
