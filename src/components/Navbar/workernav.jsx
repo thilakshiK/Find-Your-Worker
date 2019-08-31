@@ -7,13 +7,12 @@ import {
   NavbarBrand,
   Nav,
   Container,
-  Dropdown,
   DropdownItem,
   DropdownToggle,
   DropdownMenu,
   UncontrolledDropdown
 } from "reactstrap";
-import { BrowserRouter as router, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 export default class WorkerNavComponent extends Component {
   constructor(props) {

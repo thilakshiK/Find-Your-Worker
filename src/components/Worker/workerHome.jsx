@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import WorkerNavComponent from "../Navbar/workernav";
 import "../../assets/styles/font.css";
 import WorkerProfileComponent from "./workerProfile";
-
+import { Col, Row } from "reactstrap";
 
 class WorkerHomeComponent extends Component {
   state = {};

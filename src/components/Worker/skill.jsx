@@ -1,31 +1,45 @@
 import React, { Component } from "react";
-import { Button, CardBody, Card, Input, Form, FormGroup } from "reactstrap";
+import {
+  Button,
+  CardBody,
+  Card,
+  Input,
+  Form,
+  FormGroup,
+  Col
+} from "reactstrap";
 
 class SkillComponent extends Component {
   state = {};
 
   handleEditSkill = () => {
-      let form3 =  document.getElementById("form3");
-      form3.style.display = "none";
-      let form4 = document.getElementById("form4");
-      form4.style.display = "block";
+    let form3 = document.getElementById("form3");
+    form3.style.display = "none";
+    let form4 = document.getElementById("form4");
+    form4.style.display = "block";
+  };
 
-  }
-
-  handleUpdateProfile = () => {
+  handleUpdateSkill = () => {
     let form4 = document.getElementById("form4");
     form4.style.display = "none";
     let form3 = document.getElementById("form3");
     form3.style.display = "block";
+  };
+
+  handleCancelSkill = () => {
+    let form4 = document.getElementById("form4");
+    form4.style.display = "none";
+    let form3 = document.getElementById("form3");
+    form3.style.display = "block";
+
   }
   render() {
     return (
       <div>
         <Card>
           <CardBody>
-            <Form style={{ padding: 40 }} id = "form3">
+            <Form style={{ padding: 40 }} id="form3">
               <FormGroup row>
-                {/* <Label for="exampleSelect">Skill Type</Label> */}
                 <Input type="select" name="select" id="exampleSelect" disabled>
                   <option>Mechanic</option>
                   <option>Driver</option>
@@ -36,7 +50,8 @@ class SkillComponent extends Component {
                   type="textarea"
                   name="text"
                   id="exampleText"
-                  placeholder="description" disabled
+                  placeholder="description"
+                  disabled
                 />
               </FormGroup>
 
@@ -45,24 +60,32 @@ class SkillComponent extends Component {
                   type="text"
                   name="hrate"
                   id="hrate"
-                  placeholder="hourly rate" disabled
+                  placeholder="hourly rate"
+                  disabled
                 />
               </FormGroup>
 
-              <FormGroup check row>
-                <Button color="danger" style={{ width: 130 }}>
-                  Delete
-                </Button>
+              <FormGroup row style={{ marginTop: 20 }}>
+                <Col xs={{ size: 5 }} sm={4}>
+                  <Button color="danger" style={{ width: 100 }}>
+                    Delete
+                  </Button>
+                </Col>
 
-                <Button color="success" style={{ marginLeft: 30, width: 130 }} onClick = {this.handleEditSkill}>
-                  Edit
-                </Button>
+                <Col xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }}>
+                  <Button
+                    color="success"
+                    onClick={this.handleEditSkill}
+                    style={{ width: 100 }}
+                  >
+                    Edit
+                  </Button>
+                </Col>
               </FormGroup>
             </Form>
 
-            <Form style={{ padding: 40 }} id = "form4">
+            <Form style={{ padding: 40 , display : "none"}} id="form4">
               <FormGroup row>
-                {/* <Label for="exampleSelect">Skill Type</Label> */}
                 <Input type="select" name="select" id="exampleSelect">
                   <option>Mechanic</option>
                   <option>Driver</option>
@@ -86,14 +109,26 @@ class SkillComponent extends Component {
                 />
               </FormGroup>
 
-              <FormGroup check row>
-                <Button color="success" style={{ width: 130 }} onClick = {this.handleUpdateProfile} >
-                  Update
-                </Button>
+              <FormGroup row style={{ marginTop: 20 }}>
+                <Col xs={{ size: 5 }} sm={4}>
+                  <Button
+                    color="success"
+                    style={{ width: 100 }}
+                    onClick={this.handleUpdateSkill}
+                  >
+                    Update
+                  </Button>
+                </Col>
 
-                <Button color="warning" style={{ marginLeft: 30, width: 130 }} >
-                  Cancel
-                </Button>
+                <Col xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }}>
+                  <Button
+                    color="warning"
+                    onClick={this.handleCancelSkill}
+                    style={{ width: 100 }}
+                  >
+                    Cancel
+                  </Button>
+                </Col>
               </FormGroup>
             </Form>
           </CardBody>

@@ -9,6 +9,7 @@ export default class SingupFormComponent extends React.Component {
     return (
       <div>
         <SimpleNavComponent />
+        
         <Form style={{ margin: "auto", width: 400, marginTop: 100 }}>
           <h3
             style={{

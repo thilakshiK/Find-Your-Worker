@@ -7,10 +7,10 @@ import {
   Input,
   Form,
   FormGroup,
-  Label
+  Label,
+  Row,
+  Col
 } from "reactstrap";
-
-
 
 class AddWorkerSkill extends Component {
   constructor(props) {
@@ -26,14 +26,21 @@ class AddWorkerSkill extends Component {
   render() {
     return (
       <div>
-         <Label sm={4} style = {{marginLeft : 80 , marginTop : 80}}>Skills</Label>
-        <Button
+        <Row>
+          <Col>
+          <Label xs={4} sm={4} style={{ marginLeft: 80, marginTop: 40 }}>
+          Skills
+        </Label>
+        <Button xs={4} sm={4}
           color="primary"
           onClick={this.toggle}
-          style={{ marginBottom: "1rem", marginLeft : 90 }}
+          style={{ marginBottom: "1rem", marginLeft: 40 }}
         >
           Add New
         </Button>
+          </Col>
+        </Row>
+        
         <Collapse isOpen={this.state.collapse}>
           <Card>
             <CardBody>
@@ -43,7 +50,6 @@ class AddWorkerSkill extends Component {
                   <Input type="select" name="select" id="exampleSelect">
                     <option>Mechanic</option>
                     <option>Driver</option>
-                   
                   </Input>
                 </FormGroup>
                 <FormGroup row>
@@ -64,21 +70,30 @@ class AddWorkerSkill extends Component {
                   />
                 </FormGroup>
 
-                <FormGroup check row>
-                  <Button color="warning" style={{  width : 130 }}>Cancel</Button>
+                <FormGroup row style={{ marginTop: 20 }}>
+                  <Col xs={{ size: 5 }} sm={4}>
+                    <Button
+                      color="warning"
+                      style={{ width: 100 }}
+                    >
+                      Cancel
+                    </Button>
+                  </Col>
 
-                  <Button color="success" style={{ marginLeft: 30 , width : 130 }}>
-                    Add
-                  </Button>
+                  <Col xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }}>
+                    <Button
+                      color="success"
+                      //onClick={}
+                      style={{ width: 100 }}
+                    >
+                      Add
+                    </Button>
+                  </Col>
                 </FormGroup>
               </Form>
             </CardBody>
           </Card>
         </Collapse>
-
-      
-
-
       </div>
     );
   }
