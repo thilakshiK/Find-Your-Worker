@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   UncontrolledDropdown
 } from "reactstrap";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class WorkerNavComponent extends Component {
   constructor(props) {
@@ -52,7 +52,9 @@ export default class WorkerNavComponent extends Component {
                 {/* add profile picture */}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>My Profile</DropdownItem>
+                <DropdownItem>
+                  <Link to="/worker/profile">My Profile</Link>
+                </DropdownItem>
                 <DropdownItem>Requests</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>

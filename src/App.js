@@ -4,7 +4,7 @@ import "./App.css";
 import WelcomeComponent from "./components/Welcome/welcome";
 import LoginFormComponent from "./components/Login/login";
 import SingupFormComponent from "./components/Signup/signup";
-import WorkerHomeComponent from "./components/Worker/workerHome";
+import WorkerProfileComponent from "./components/Worker/Profile/workerProfile";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
           <Route exact path="/" component={WelcomeComponent}></Route>
           <Route path="/login" component={LoginFormComponent}></Route>
           <Route path="/signup" component={SingupFormComponent}></Route>
-          <Route path="/worker/profile" component={WorkerHomeComponent}></Route>
+          <Route path="/worker/profile" component={WorkerProfileComponent}></Route>
         </Switch>
       </Router>
     </div>

@@ -9,11 +9,11 @@ import {
   Row,
   Media
 } from "reactstrap";
-import "../../assets/styles/font.css";
-import AddWorkerSkill from "./addWorkerSkill";
-import SkillComponent from "./skill";
+import "../../../assets/styles/font.css";
+import AddWorkerSkill from "../../Skill/addWorkerSkill";
+import SkillComponent from "../../Skill/skill";
 
-class WorkerProfileComponent extends Component {
+class WorkerEditProfileComponent extends Component {
   state = {};
 
   handleEditProfile = () => {
@@ -250,4 +250,4 @@ class WorkerProfileComponent extends Component {
   }
 }
 
-export default WorkerProfileComponent;
+export default WorkerEditProfileComponent;
