@@ -10,8 +10,8 @@ import {
   Media
 } from "reactstrap";
 import "../../../assets/styles/font.css";
-import AddWorkerSkill from "../../Skill/addWorkerSkill";
-import SkillComponent from "../../Skill/skill";
+import SkillComponent from "../Skill/skill";
+import AddWorkerSkill from "../Skill/addWorkerSkill";
 
 class WorkerEditProfileComponent extends Component {
   state = {};
@@ -54,6 +54,22 @@ class WorkerEditProfileComponent extends Component {
           <Button color="success" style={{ marginLeft: 40, marginTop: 20 }}>
             Upload New Photo
           </Button>
+
+          <FormGroup row style = {{marginTop:20 , marginLeft : 10}}>
+              <Label for="firstName" xs={12} sm={5}>
+                Rating
+              </Label>
+              <Col xs={10} sm={6}>
+                <Input
+                  type="text"
+                  name="rating"
+                  id="rating"
+                  placeholder="rating"
+                  disabled
+                />
+              </Col>
+            </FormGroup>
+
         </Col>
 
         <Col

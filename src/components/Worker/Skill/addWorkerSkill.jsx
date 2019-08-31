@@ -66,7 +66,7 @@ class AddWorkerSkill extends Component {
                     type="text"
                     name="hrate"
                     id="hrate"
-                    placeholder="hourly rate"
+                    placeholder="hourly charge"
                   />
                 </FormGroup>
 

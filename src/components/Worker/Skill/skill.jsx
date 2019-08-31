@@ -60,7 +60,7 @@ class SkillComponent extends Component {
                   type="text"
                   name="hrate"
                   id="hrate"
-                  placeholder="hourly rate"
+                  placeholder="hourly charge"
                   disabled
                 />
               </FormGroup>
@@ -105,7 +105,7 @@ class SkillComponent extends Component {
                   type="text"
                   name="hrate"
                   id="hrate"
-                  placeholder="hourly rate"
+                  placeholder="hourly charge"
                 />
               </FormGroup>
 
