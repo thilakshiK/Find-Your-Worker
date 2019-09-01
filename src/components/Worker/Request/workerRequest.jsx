@@ -23,14 +23,15 @@ class WorkerRequestComponent extends Component {
           <Row>
             <Col sm="6"  style={{ backgroundColor: "#ffb6b9" }}>
               <h5 style = {this.h5}>Urgent Requests</h5>
-              <UrgentRequestComponent />
+              <UrgentRequestComponent reqId = {1234} />
+              <UrgentRequestComponent reqId = {1234} />
            
             </Col>
             {/* xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }} */}
             <Col sm="6" style={{ backgroundColor: "#c6f1d6"}}>
             <h5 style = {this.h5}>Scheduled Requests</h5>
 
-            <ScheduledRequestComponent/>
+            <ScheduledRequestComponent  reqId = {86539}/>
              
             </Col>
 
