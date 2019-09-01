@@ -8,8 +8,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from "reactstrap";
 import "../../../assets/styles/font.css";
 
@@ -18,6 +17,7 @@ class TodayJobComponent extends React.Component {
     super(props);
     this.state = {
       modal: false
+      
     };
 
     this.toggle = this.toggle.bind(this);
@@ -32,8 +32,8 @@ class TodayJobComponent extends React.Component {
   render() {
     return (
       <div style={{ fontFamily: "Josefin Sans" }}>
-        <Button color="danger" onClick={this.toggle}>
-          Click me
+        <Button color="info" onClick={this.toggle} style = {{width : 300, margin : 20}}>
+          {this.props.jobid}
         </Button>
         <Modal
           isOpen={this.state.modal}
@@ -44,77 +44,54 @@ class TodayJobComponent extends React.Component {
           <ModalBody style={{ fontFamily: "Josefin Sans" }}>
           <Form>
         <FormGroup>
-          <Label for="exampleEmail">Email</Label>
-          <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+          <Label for="clientName">Client Name</Label>
+          <Input type="name" name="name" id="clientName" disabled />
         </FormGroup>
         <FormGroup>
-          <Label for="examplePassword">Password</Label>
-          <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+          <Label for="location">Location</Label>
+          <Input type="location" name="location" id="location"  disabled />
         </FormGroup>
+
+        
         <FormGroup>
-          <Label for="exampleSelect">Select</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
+          <Label for="date">Date</Label>
+          <Input type="todayDate" name="todayDate" id="date" disabled />  
+          {/* date must be added automatically */}
         </FormGroup>
+
         <FormGroup>
-          <Label for="exampleSelectMulti">Select Multiple</Label>
-          <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
+          <Label for="contactno">Contact Number</Label>
+          <Input type="contactnumber" name="contactnumber" id="contactno" disabled />
         </FormGroup>
+
+        <FormGroup>
+          <Label for="skill">Job Type</Label>
+          <Input type="skillType" name="skillType" id="skill" disabled />
+        </FormGroup>
+
+        
+        <FormGroup>
+          <Label for="hrate">Hourly Charge</Label>
+          <Input type="hourcharge" name="hourcharge" id="hrate" disabled />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="endtime">Expected End Time</Label>
+          <Input type="endTime" name="endTime" id="endtime"  />
+        </FormGroup>
+       
+        
         <FormGroup>
           <Label for="exampleText">Text Area</Label>
           <Input type="textarea" name="text" id="exampleText" />
         </FormGroup>
-        <FormGroup>
-          <Label for="exampleFile">File</Label>
-          <Input type="file" name="file" id="exampleFile" />
-          <FormText color="muted">
-            This is some placeholder block-level help text for the above input.
-            It's a bit lighter and easily wraps to a new line.
-          </FormText>
-        </FormGroup>
-        <FormGroup tag="fieldset">
-          <legend>Radio Buttons</legend>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" />{' '}
-              Option one is this and that—be sure to include why it's great
-            </Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="radio" name="radio1" />{' '}
-              Option two can be something else and selecting it will deselect option one
-            </Label>
-          </FormGroup>
-          <FormGroup check disabled>
-            <Label check>
-              <Input type="radio" name="radio1" disabled />{' '}
-              Option three is disabled
-            </Label>
-          </FormGroup>
-        </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input type="checkbox" />{' '}
-            Check me out
-          </Label>
-        </FormGroup>
-        <Button>Submit</Button>
+       
+     
+       
       </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>
+            <Button color="success" onClick={this.toggle}>
               Start
             </Button>{" "}
             <Button color="secondary" onClick={this.toggle}>

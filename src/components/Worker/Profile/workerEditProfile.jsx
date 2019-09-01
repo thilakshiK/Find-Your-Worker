@@ -35,7 +35,7 @@ class WorkerEditProfileComponent extends Component {
         <Col
           xs={{ size: 12 }}
           sm={{ size: 2, offset: 1 }}
-          style={{ backgroundColor: "#f5f5f5" }}
+          style={{ backgroundColor: "#ecf4f3" }}
         >
           <Media>
             <Media
@@ -56,7 +56,7 @@ class WorkerEditProfileComponent extends Component {
           </Button>
 
           <FormGroup row style = {{marginTop:20 , marginLeft : 10}}>
-              <Label for="firstName" xs={12} sm={5}>
+              <Label for="rating" xs={12} sm={5}>
                 Rating
               </Label>
               <Col xs={10} sm={6}>
@@ -108,7 +108,7 @@ class WorkerEditProfileComponent extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="contactno" xs={12} sm={5}>
+              <Label for="contactnumber" xs={12} sm={5}>
                 Phone Number
               </Label>
               <Col xs={10} sm={6}>
@@ -122,11 +122,11 @@ class WorkerEditProfileComponent extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="exampleSelect" xs={12} sm={5}>
+              <Label for="locationSelect" xs={12} sm={5}>
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="exampleSelect" disabled>
+                <Input type="select" name="select" id="locationSelect" disabled>
                   <option>Kollupitiya</option>
                   <option>Dehiwala</option>
                   {/* select base locations from db */}
@@ -135,12 +135,12 @@ class WorkerEditProfileComponent extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label xs={12} sm={5}>
+              <Label for = "statusSelect" xs={12} sm={5}>
                 Status
               </Label>
 
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="exampleSelect" disabled>
+                <Input type="select" name="select" id="statusSelect" disabled>
                   <option>Online</option>
                   <option>Offiline</option>
                 </Input>
@@ -186,7 +186,7 @@ class WorkerEditProfileComponent extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="contactno" xs={12} sm={5}>
+              <Label for="contactnumber" xs={12} sm={5}>
                 Phone Number
               </Label>
               <Col xs={10} sm={6}>
@@ -199,11 +199,11 @@ class WorkerEditProfileComponent extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="exampleSelect" xs={12} sm={5}>
+              <Label for="locationSelect" xs={12} sm={5}>
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="exampleSelect">
+                <Input type="select" name="select" id="locationSelect">
                   <option>Kollupitiya</option>
                   <option>Dehiwala</option>
                   {/* select base locations from db */}
@@ -212,12 +212,12 @@ class WorkerEditProfileComponent extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label xs={12} sm={5}>
+              <Label for = "statusSelect" xs={12} sm={5}>
                 Status
               </Label>
 
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="exampleSelect">
+                <Input type="select" name="select" id="statusSelect">
                   <option>Online</option>
                   <option>Offiline</option>
                 </Input>

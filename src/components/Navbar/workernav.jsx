@@ -55,8 +55,8 @@ export default class WorkerNavComponent extends Component {
                 <DropdownItem>
                   <Link to="/worker/profile">My Profile</Link>
                 </DropdownItem>
-                <DropdownItem>Requests</DropdownItem>
-                <DropdownItem>My Jobs</DropdownItem>
+                <DropdownItem><Link to = "/worker/request">Requests</Link></DropdownItem>
+                <DropdownItem><Link to="/worker/job">My Jobs</Link></DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
                   <Link to="/"> Log Out </Link>
