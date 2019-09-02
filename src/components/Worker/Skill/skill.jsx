@@ -31,8 +31,7 @@ class SkillComponent extends Component {
     form4.style.display = "none";
     let form3 = document.getElementById("form3");
     form3.style.display = "block";
-
-  }
+  };
   render() {
     return (
       <div>
@@ -84,7 +83,7 @@ class SkillComponent extends Component {
               </FormGroup>
             </Form>
 
-            <Form style={{ padding: 40 , display : "none"}} id="form4">
+            <Form style={{ padding: 40, display: "none" }} id="form4">
               <FormGroup row>
                 <Input type="select" name="select" id="exampleSelect">
                   <option>Mechanic</option>

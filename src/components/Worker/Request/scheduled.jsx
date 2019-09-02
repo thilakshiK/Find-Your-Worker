@@ -1,41 +1,40 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Form,
-    FormGroup,
-    Label,
-    Input
-  } from "reactstrap";
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input
+} from "reactstrap";
 
 class ScheduledRequestComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          modal: false
-          
-        };
-    
-        this.toggle = this.toggle.bind(this);
-      }
-    
-      toggle() {
-        this.setState(prevState => ({
-          modal: !prevState.modal
-        }));
-      }
-    
-    render() { 
-        return ( 
-            <div style={{ fontFamily: "Josefin Sans" }}>
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false
+    };
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  render() {
+    return (
+      <div style={{ fontFamily: "Josefin Sans" }}>
         <Button
           color="info"
           onClick={this.toggle}
-          style={{ width: 300, marginLeft: 120 , marginTop : 20 }}
+          style={{ width: 300, marginLeft: 120, marginTop: 20 }}
         >
           {this.props.reqId}
         </Button>
@@ -108,8 +107,8 @@ class ScheduledRequestComponent extends Component {
           </ModalFooter>
         </Modal>
       </div>
-         );
-    }
+    );
+  }
 }
- 
+
 export default ScheduledRequestComponent;

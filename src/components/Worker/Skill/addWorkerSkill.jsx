@@ -28,19 +28,21 @@ class AddWorkerSkill extends Component {
       <div>
         <Row>
           <Col>
-          <Label xs={4} sm={4} style={{ marginLeft: 80, marginTop: 40 }}>
-          Skills
-        </Label>
-        <Button xs={4} sm={4}
-          color="primary"
-          onClick={this.toggle}
-          style={{ marginBottom: "1rem", marginLeft: 40 }}
-        >
-          Add New
-        </Button>
+            <Label xs={4} sm={4} style={{ marginLeft: 80, marginTop: 40 }}>
+              Skills
+            </Label>
+            <Button
+              xs={4}
+              sm={4}
+              color="primary"
+              onClick={this.toggle}
+              style={{ marginBottom: "1rem", marginLeft: 40 }}
+            >
+              Add New
+            </Button>
           </Col>
         </Row>
-        
+
         <Collapse isOpen={this.state.collapse}>
           <Card>
             <CardBody>
@@ -72,10 +74,7 @@ class AddWorkerSkill extends Component {
 
                 <FormGroup row style={{ marginTop: 20 }}>
                   <Col xs={{ size: 5 }} sm={4}>
-                    <Button
-                      color="warning"
-                      style={{ width: 100 }}
-                    >
+                    <Button color="warning" style={{ width: 100 }}>
                       Cancel
                     </Button>
                   </Col>
