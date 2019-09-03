@@ -1,16 +1,52 @@
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import "../../assets/styles/font.css";
-import "../Navbar/simplenav";
 import SimpleNavComponent from "../Navbar/simplenav";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 export default class SingupFormComponent extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      email : "",
+      password : "",
+      phonenumber : ""
+
+    };
+
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handlePhoneNumberChange = this.handlePasswordChange.bind(this);
+
+
+  }
+
+  handleEmailChange(event) {
+    this.setState({email : event.target.value});
+  }
+
+  handleSubmit(event) {
+    //
+  }
+
+  handlePasswordChange (event) {
+    this.setState({password: event.target.value});
+  }
+
+  handlePhoneNumberChange(event){
+    this.setState({phonenumber : event.target.value});
+  }
+
+
+
+
   render() {
     return (
       <div>
         <SimpleNavComponent />
         
-        <Form style={{ margin: "auto", width: 400, marginTop: 100 }}>
+        <Form style={{ margin: "auto", width: 400, marginTop: 100 }} onSubmit = {this.handleSubmit}>
           <h3
             style={{
               fontFamily: "Josefin Sans",
@@ -20,29 +56,32 @@ export default class SingupFormComponent extends React.Component {
           >
             Get your free account
           </h3>
-          <FormGroup>
-            <Input
-              type="name"
-              name="name"
-              id="examplename"
-              placeholder="Name"
-            />
-          </FormGroup>
+          
 
           <FormGroup>
             <Input
               type="email"
-              name="email"
-              id="exampleemail"
+              value = {this.state.email}
+              onChange = {this.handleEmailChange}
               placeholder="Email"
+              required
             />
           </FormGroup>
           <FormGroup>
             <Input
               type="password"
-              name="password"
-              id="examplePassword"
+              value = {this.state.password}
+              onChange = {this.handlePasswordChange}
               placeholder="Password "
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Input
+              type="number"
+              value = {this.state.phonenumber}
+              onChange = {this.handlePhoneNumberChange}
+              placeholder="Contact Number"
             />
           </FormGroup>
 

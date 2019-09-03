@@ -92,7 +92,8 @@ class BookingComponent extends Component {
             <Col
               sm={{ size: 4, offset: 1 }}
               style={{ backgroundColor: "#ffffc5" }}
-            > <PendingRequest/>
+            > <h5 style={this.h5}>Pending Requests</h5>
+            <PendingRequest reqId = "2345"/>
 
             </Col>
           </Row>
@@ -101,7 +102,7 @@ class BookingComponent extends Component {
             <Col sm="7">
               <div id="mapcontainer" style={{ display: "none" }}>
                 <FormGroup row style={{ width: "800px", height: "500px" }}>
-                  {" "}
+                 
                   <MapContainer style={{ width: "50%", height: "50%" }} />
                 </FormGroup>
 

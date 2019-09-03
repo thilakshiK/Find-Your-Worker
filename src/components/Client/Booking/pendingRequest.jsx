@@ -35,7 +35,7 @@ class PendingRequest extends Component {
         <Button
           color="info"
           onClick={this.toggle}
-          style={{ width: 300, marginLeft: 120, marginTop: 20 }}
+          style={{ width: 300, marginLeft: 30, marginTop: 20 }}
         >
           {this.props.reqId}
         </Button>
@@ -54,12 +54,12 @@ class PendingRequest extends Component {
 
               <FormGroup>
                 <Label for="exampleText">Description</Label>
-                <Input type="textarea" name="text" id="exampleText" />
+                <Input type="textarea" name="text" id="exampleText" disabled />
               </FormGroup>
 
               <FormGroup>
                 <Label for="endtime">Expected End Time</Label>
-                <Input type="endTime" name="endTime" id="endtime" />
+                <Input type="endTime" name="endTime" id="endtime" disabled />
               </FormGroup>
 
               <FormGroup>
@@ -74,9 +74,7 @@ class PendingRequest extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="success" onClick={this.toggle}>
-              Accept
-            </Button>{" "}
+           
             <Button color="secondary" onClick={this.toggle}>
               Decline
             </Button>
