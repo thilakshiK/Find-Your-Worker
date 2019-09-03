@@ -51,6 +51,10 @@ export default class SingupFormComponent extends React.Component {
     this.setState({visibleFailure :false});
   }
 
+  validateForm() {
+    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.phonenumber.length <11;
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -168,6 +172,7 @@ export default class SingupFormComponent extends React.Component {
             type="submit"
             value="Sign Me Up"
             className="btn btn-success"
+            disabled={!this.validateForm()}
             style={{ marginTop: 30 }}
           ></Input>
 
