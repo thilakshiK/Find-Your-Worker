@@ -19,11 +19,11 @@ function App() {
           <Route exact path="/" component={WelcomeComponent}></Route>
           <Route path="/login" component={LoginFormComponent}></Route>
           <Route path="/signup" component={SingupFormComponent}></Route>
-          <Route path="/worker/profile" component={WorkerProfileComponent}></Route>
-          <Route path="/worker/job" component = {WorkerJobComponent}></Route>
-          <Route path="/worker/request" component = {WorkerRequestComponent}></Route>
-          <Route path="/client/profile" component={ClientProfileComponent}></Route>
-          <Route path="/client/booking" component={BookingComponent}></Route>
+          <Route path="/workerProfile" component={WorkerProfileComponent}></Route>
+          <Route path="/workerJob" component = {WorkerJobComponent}></Route>
+          <Route path="/workerRequest" component = {WorkerRequestComponent}></Route>
+          <Route path="/clientProfile" component={ClientProfileComponent}></Route>
+          <Route path="/clientBooking" component={BookingComponent}></Route>
         </Switch>
       </Router>
     </div>
