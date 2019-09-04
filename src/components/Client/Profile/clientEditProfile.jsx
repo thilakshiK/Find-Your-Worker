@@ -54,6 +54,19 @@ class ClientEditProfileComponent extends Component {
           <Button color="success" style={{ marginLeft: 40, marginTop: 20 }}>
             Upload New Photo
           </Button>
+
+          <FormGroup row style={{  marginTop: 20 }}>
+              <Label for="email" xs={12} sm={4}>
+                Email
+              </Label>
+              <Col xs={10} sm={8}>
+                <Input
+                  type="email"
+                  //placeholder="first name"
+                  disabled
+                />
+              </Col>
+            </FormGroup>
         </Col>
 
         <Col

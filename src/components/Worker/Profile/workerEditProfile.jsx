@@ -12,24 +12,158 @@ import {
 import "../../../assets/styles/font.css";
 import SkillComponent from "../Skill/skill";
 import AddWorkerSkill from "../Skill/addWorkerSkill";
+import axios from "axios";
+import Select from "react-select";
+
+let baselocations = [];
 
 class WorkerEditProfileComponent extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
 
-  handleEditProfile = () => {
-    let form1 = document.getElementById("form1");
-    form1.style.display = "none";
-    let form2 = document.getElementById("form2");
-    form2.style.display = "block";
-  };
+    this.state = {
+      firstname: "",
+      lastname: "",
+      phonenumber: "",
+      status: "",
+      baselocation: "",
+      rating: "",
+      email: "",
+      userId: "",
+      imgURL: "",
+      workerDetails: [],
+      skillDetails: []
+    };
 
-  handleUpdateProfile = () => {
-    let form2 = document.getElementById("form2");
-    form2.style.display = "none";
-    let form1 = document.getElementById("form1");
-    form1.style.display = "block";
-  };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
+    this.handleStatusSelect = this.handleStatusSelect.bind(this);
+    this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  handleFirstNameChange(event) {
+    this.setState({ firstname: event.target.value });
+  }
+
+  handleLastNameChange(event) {
+    this.setState({ lastname: event.target.value });
+  }
+
+  handlePhoneNumberChange(event) {
+    this.setState({ phonenumber: event.target.value });
+  }
+
+  handleStatusSelect(status) {
+    this.setState({ status });
+  }
+
+  handleLocationSelect(event) {
+    this.setState({ baselocation: event.target.value });
+  }
+
+  handleEditProfile() {
+    let disableEditWorkerDetails = document.getElementById(
+      "disableEditWorkerDetails"
+    );
+    disableEditWorkerDetails.style.display = "none";
+    let enableEditWorkerDetails = document.getElementById(
+      "enableEditWorkerDetails"
+    );
+    enableEditWorkerDetails.style.display = "block";
+  }
+
+  handleCancelUpdateProfile() {
+    let enableEditWorkerDetails = document.getElementById(
+      "enableEditWorkerDetails"
+    );
+    enableEditWorkerDetails.style.display = "none";
+    let disableEditWorkerDetails = document.getElementById(
+      "disableEditWorkerDetails"
+    );
+    disableEditWorkerDetails.style.display = "block";
+  }
+
+  handleUpdateProfile(event) {
+    event.preventDefault();
+    let enableEditWorkerDetails = document.getElementById(
+      "enableEditWorkerDetails"
+    );
+    enableEditWorkerDetails.style.display = "none";
+    let disableEditWorkerDetails = document.getElementById(
+      "disableEditWorkerDetails"
+    );
+    disableEditWorkerDetails.style.display = "block";
+  }
+
+  componentWillMount() {
+    const userId = localStorage.getItem("UserId");
+    this.setState({
+      userId: userId
+    });
+  }
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:3000/worker/profile/" + this.state.userId, {
+        withCredentials: true
+      })
+      .then(res => {
+        console.log("here", res.data.result.recordsets[0][0]);
+        let workerStatus = "";
+        if (res.data.result.recordsets[0][0].Status == false) {
+          workerStatus = "Offline";
+        } else {
+          workerStatus = "Online";
+        }
+
+        this.setState({
+          firstname: res.data.result.recordsets[0][0].FirstName,
+          lastname: res.data.result.recordsets[0][0].LastName,
+          phonenumber: res.data.result.recordsets[0][0].ContactNumber,
+          baselocation: res.data.result.recordsets[0][0].BaseLocation,
+          status: workerStatus, //issue in displaying status
+          email: res.data.result.recordsets[0][0].UserEmail,
+          imgURL: res.data.result.recordsets[0][0].ImgUrl
+        });
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+
+    //location selection
+
+    axios
+      .get("http://localhost:3000/dataservices/getalllocations", {
+        withCredentials: true
+      })
+      .then(res => {
+        let i = 0;
+        let tempArray = {};
+
+        for (i; i < res.data.recordsets[0].length; i++) {
+          tempArray["value"] = i;
+          tempArray["label"] = res.data.recordsets[0][i].DivisionalSecretary;
+          baselocations.push(tempArray);
+          tempArray = {};
+        }
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+  }
+
   render() {
+    const options = [
+      { value: 0, label: "Offline" },
+      { value: 1, label: "Online" }
+    ];
+
     return (
       <Row style={{ marginTop: 50, fontFamily: "Josefin Sans", fontSize: 20 }}>
         <Col
@@ -55,21 +189,38 @@ class WorkerEditProfileComponent extends Component {
             Upload New Photo
           </Button>
 
-          <FormGroup row style = {{marginTop:20 , marginLeft : 10}}>
-              <Label for="rating" xs={12} sm={5}>
-                Rating
-              </Label>
-              <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="rating"
-                  id="rating"
-                  placeholder="rating"
-                  disabled
-                />
-              </Col>
-            </FormGroup>
+          <FormGroup row style={{ marginTop: 20, marginLeft: 10 }}>
+            <Label for="rating" xs={12} sm={5}>
+              Rating
+            </Label>
+            <Col xs={10} sm={6}>
+              <Input type="number" value={this.state.raing} disabled />
+            </Col>
+          </FormGroup>
 
+          <FormGroup row style={{ marginTop: 20 }}>
+            <Label for="email" xs={12} sm={4}>
+              Email
+            </Label>
+            <Col xs={10} sm={8}>
+              <Input type="email" value={this.state.email} disabled />
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Label for="statusSelect" xs={12} sm={5}>
+              Status
+            </Label>
+
+            <Col xs={10} sm={6}>
+              <Select
+                options={options}
+                placeholder="Status"
+                value={this.state.status}
+                onChange={this.handleStatusSelect}
+              ></Select>
+            </Col>
+          </FormGroup>
         </Col>
 
         <Col
@@ -77,19 +228,16 @@ class WorkerEditProfileComponent extends Component {
           sm={{ size: 4, offset: 1 }}
           style={{ backgroundColor: "#f5f5f5" }}
         >
-          <Form style={{ marginTop: 40, marginLeft: 50 }} id="form1">
+          <Form
+            style={{ marginTop: 40, marginLeft: 50 }}
+            id="disableEditWorkerDetails"
+          >
             <FormGroup row>
               <Label for="firstName" xs={12} sm={5}>
                 First Name
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="firstname"
-                  id="firstname"
-                  placeholder="first name"
-                  disabled
-                />
+                <Input type="text" value={this.state.firstname} disabled />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -97,13 +245,7 @@ class WorkerEditProfileComponent extends Component {
                 Last Name
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="lastname"
-                  id="lastname"
-                  placeholder="last name"
-                  disabled
-                />
+                <Input type="text" value={this.state.lastname} disabled />
               </Col>
             </FormGroup>
 
@@ -112,13 +254,7 @@ class WorkerEditProfileComponent extends Component {
                 Phone Number
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="contactnumber"
-                  id="contactnumber"
-                  placeholder="phone number"
-                  disabled
-                />
+                <Input type="text" value={this.state.phonenumber} disabled />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -126,26 +262,23 @@ class WorkerEditProfileComponent extends Component {
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="locationSelect" disabled>
-                  <option>Kollupitiya</option>
-                  <option>Dehiwala</option>
-                  {/* select base locations from db */}
+                <Input type="text" value={this.state.baselocation} disabled>
+              
                 </Input>
+
+                
               </Col>
             </FormGroup>
 
-            <FormGroup row>
-              <Label for = "statusSelect" xs={12} sm={5}>
+            {/* <FormGroup row>
+              <Label for="statusSelect" xs={12} sm={5}>
                 Status
               </Label>
 
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="statusSelect" disabled>
-                  <option>Online</option>
-                  <option>Offiline</option>
-                </Input>
+                <Input type="select" value={this.state.status} disabled></Input>
               </Col>
-            </FormGroup>
+            </FormGroup> */}
 
             <FormGroup check row style={{ marginTop: 20 }}>
               <Button color="success" onClick={this.handleEditProfile}>
@@ -155,8 +288,9 @@ class WorkerEditProfileComponent extends Component {
           </Form>
 
           <Form
+            id="enableEditWorkerDetails"
             style={{ marginTop: 40, marginLeft: 50, display: "none" }}
-            id="form2"
+            onSubmit={this.handleSubmit}
           >
             <FormGroup row>
               <Label for="firstName" xs={12} sm={5}>
@@ -165,9 +299,8 @@ class WorkerEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="firstname"
-                  id="firstname"
-                  placeholder="first name"
+                  value={this.state.firstname}
+                  onChange={this.handleFirstNameChange}
                 />
               </Col>
             </FormGroup>
@@ -178,9 +311,8 @@ class WorkerEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="lastname"
-                  id="lastname"
-                  placeholder="last name"
+                  value={this.state.lastname}
+                  onChange={this.handleLastNameChange}
                 />
               </Col>
             </FormGroup>
@@ -192,9 +324,8 @@ class WorkerEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="contactnumber"
-                  id="contactnumber"
-                  placeholder="phone number"
+                  value={this.state.phonenumber}
+                  onChange={this.handlePhoneNumberChange}
                 />
               </Col>
             </FormGroup>
@@ -203,24 +334,13 @@ class WorkerEditProfileComponent extends Component {
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="locationSelect">
-                  <option>Kollupitiya</option>
-                  <option>Dehiwala</option>
-                  {/* select base locations from db */}
-                </Input>
-              </Col>
-            </FormGroup>
-
-            <FormGroup row>
-              <Label for = "statusSelect" xs={12} sm={5}>
-                Status
-              </Label>
-
-              <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="statusSelect">
-                  <option>Online</option>
-                  <option>Offiline</option>
-                </Input>
+                <Select
+                  value={this.state.baselocation}
+                  onChange={this.handleLocationSelect}
+                  options={baselocations}
+                  
+                />
+               
               </Col>
             </FormGroup>
 
@@ -238,7 +358,7 @@ class WorkerEditProfileComponent extends Component {
               <Col xs={{ size: 6, offset: 1 }} sm={{ size: 5, offset: 1 }}>
                 <Button
                   color="warning"
-                  onClick={this.handleUpdateProfile}
+                  onClick={this.handleCancelUpdateProfile}
                   style={{ width: 130 }}
                 >
                   Cancel
@@ -259,7 +379,6 @@ class WorkerEditProfileComponent extends Component {
         >
           <AddWorkerSkill />
           <SkillComponent />
-         
         </Col>
       </Row>
     );

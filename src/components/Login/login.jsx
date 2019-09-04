@@ -46,9 +46,9 @@ export default class LoginFormComponent extends React.Component {
     };
 
     axios
-      .post("http://127.0.0.1:3000/user/login", loginDetails)
+      .post("http://localhost:3000/user/login", loginDetails, {withCredentials: true})
       .then(res => {
-        console.log(res);
+        
         
         if (res.data.message === "Authorized") {
           this.setState({
