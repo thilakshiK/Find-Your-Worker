@@ -9,35 +9,111 @@ import {
   Col
 } from "reactstrap";
 
+import axios from "axios";
+import Select from "react-select";
+
+let skillList = [];
+
 class SkillComponent extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: "",
+      skill : ""
+    };
 
-  handleEditSkill = () => {
-    let form3 = document.getElementById("form3");
-    form3.style.display = "none";
-    let form4 = document.getElementById("form4");
-    form4.style.display = "block";
+    this.handleEditSkill = this.handleEditSkill.bind(this)
+    this.handleUpdateSkill = this.handleUpdateSkill.bind(this)
+    this.handleCancelSkill = this.handleCancelSkill.bind(this)
+    this.handleSkillChange = this.handleSkillChange.bind(this)
+
+  }
+
+  handleSkillChange (skill){
+    this.setState({skill})
+
+  }
+
+  handleEditSkill () {
+    let disableEditWorkerSkill = document.getElementById(
+      "disableEditWorkerSkill"
+    );
+    disableEditWorkerSkill.style.display = "none";
+    let enableEditWorkerSkill = document.getElementById(
+      "enableEditWorkerSkill"
+    );
+    enableEditWorkerSkill.style.display = "block";
   };
 
-  handleUpdateSkill = () => {
-    let form4 = document.getElementById("form4");
-    form4.style.display = "none";
-    let form3 = document.getElementById("form3");
-    form3.style.display = "block";
+  handleUpdateSkill () {
+    let enableEditWorkerSkill = document.getElementById(
+      "enableEditWorkerSkill"
+    );
+    enableEditWorkerSkill.style.display = "none";
+    let disableEditWorkerSkill = document.getElementById(
+      "disableEditWorkerSkill"
+    );
+    disableEditWorkerSkill.style.display = "block";
   };
 
-  handleCancelSkill = () => {
-    let form4 = document.getElementById("form4");
-    form4.style.display = "none";
-    let form3 = document.getElementById("form3");
-    form3.style.display = "block";
+  handleCancelSkill () {
+    let enableEditWorkerSkill = document.getElementById(
+      "enableEditWorkerSkill"
+    );
+    enableEditWorkerSkill.style.display = "none";
+    let disableEditWorkerSkill = document.getElementById(
+      "disableEditWorkerSkill"
+    );
+    disableEditWorkerSkill.style.display = "block";
   };
+
+  componentWillMount() {
+    const userId = localStorage.getItem("UserId");
+    this.setState({
+      userId: userId
+    });
+  }
+
+  componentDidMount() {
+
+    // worker skill selection
+    axios
+      .get("http://localhost:3000/dataservices/getallskills", {
+        withCredentials: true
+      })
+      .then(res => {
+        console.log("skill", res.data.recordsets[0]);
+        let i = 0;
+        let temArray = {};
+        for (i; i < res.data.recordsets[0].length; i++) {
+          temArray["value"] = res.data.recordsets[0][i].SkillId;
+          temArray["label"] = res.data.recordsets[0][i].SkillTitle;
+          skillList.push(temArray);
+          temArray = {}
+        }
+
+        console.log("skilllist" , skillList)
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+
+
+      //worker skill details selection
+
+
+      axios.get()
+
+
+  }
   render() {
     return (
       <div>
         <Card>
           <CardBody>
-            <Form style={{ padding: 40 }} id="form3">
+            {/* disable edit worker skill  */}
+
+            <Form style={{ padding: 40 }} id="disableEditWorkerSkill">
               <FormGroup row>
                 <Input type="select" name="select" id="exampleSelect" disabled>
                   <option>Mechanic</option>
@@ -83,12 +159,25 @@ class SkillComponent extends Component {
               </FormGroup>
             </Form>
 
-            <Form style={{ padding: 40, display: "none" }} id="form4">
-              <FormGroup row>
-                <Input type="select" name="select" id="exampleSelect">
+            {/* enable edit worker skill  */}
+
+            <Form
+              style={{ padding: 40, display: "none" }}
+              id="enableEditWorkerSkill"
+            >
+              <FormGroup >
+                {/* <Input type="select" name="select" id="exampleSelect">
                   <option>Mechanic</option>
                   <option>Driver</option>
-                </Input>
+                </Input> */}
+
+                <Select
+                  value={this.state.skill}
+                  onChange={this.handleSkillChange}
+                  options={skillList}
+                  placeholder="Skills"
+                  
+                />
               </FormGroup>
               <FormGroup row>
                 <Input
