@@ -27,6 +27,7 @@ class WorkerEditProfileComponent extends Component {
       phonenumber: "",
       status: "",
       baselocation: "",
+      baselocationdis: "",
       rating: "",
       email: "",
       userId: "",
@@ -41,6 +42,15 @@ class WorkerEditProfileComponent extends Component {
     this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
     this.handleStatusSelect = this.handleStatusSelect.bind(this);
     this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+    this.handleLocationSelect = this.handleLocationSelect.bind(this);
+  }
+
+  loadWorkerSkillComponent() {
+    if (this.state.skillDetails.length !== 0) {
+      return this.state.skillDetails.map(function(object, i) {
+        return <SkillComponent obj={object} key={i} />;
+      });
+    }
   }
 
   handleSubmit(event) {
@@ -61,10 +71,20 @@ class WorkerEditProfileComponent extends Component {
 
   handleStatusSelect(status) {
     this.setState({ status });
+    const userID = localStorage.getItem("UserId");
+    const Status = { status: status.value };
+
+    axios
+      .put("http://localhost:3000/worker/status/" + userID, Status, {
+        withCredentials: true
+      })
+      .then(res => {
+        console.log("status response", res);
+      });
   }
 
-  handleLocationSelect(event) {
-    this.setState({ baselocation: event.target.value });
+  handleLocationSelect(baselocation) {
+    this.setState({ baselocation });
   }
 
   handleEditProfile() {
@@ -91,6 +111,23 @@ class WorkerEditProfileComponent extends Component {
 
   handleUpdateProfile(event) {
     event.preventDefault();
+
+    const userID = localStorage.getItem("UserId");
+    const workerDetails = {
+      fname: this.state.firstname,
+      lname: this.state.lastname,
+      baseL: this.state.baselocation.label,
+      contactno: this.state.phonenumber
+    };
+
+    axios
+      .put("http://localhost:3000/worker/profile/" + userID, workerDetails, {
+        withCredentials: true
+      })
+      .then(res => {
+        console.log(res);
+        document.location.reload();
+      });
     let enableEditWorkerDetails = document.getElementById(
       "enableEditWorkerDetails"
     );
@@ -109,25 +146,29 @@ class WorkerEditProfileComponent extends Component {
   }
 
   componentDidMount() {
+    // get worker details
     axios
       .get("http://localhost:3000/worker/profile/" + this.state.userId, {
         withCredentials: true
       })
       .then(res => {
-        console.log("here", res.data.result.recordsets[0][0]);
-        let workerStatus = "";
-        if (res.data.result.recordsets[0][0].Status == false) {
-          workerStatus = "Offline";
+        console.log("here", res.data.result.recordsets[1]);
+
+        if (res.data.result.recordsets[1].length != 0) {
+          this.setState({
+            skillDetails: res.data.result.recordsets[1]
+          });
         } else {
-          workerStatus = "Online";
+          this.setState({
+            skillDetails: []
+          });
         }
 
         this.setState({
           firstname: res.data.result.recordsets[0][0].FirstName,
           lastname: res.data.result.recordsets[0][0].LastName,
           phonenumber: res.data.result.recordsets[0][0].ContactNumber,
-          baselocation: res.data.result.recordsets[0][0].BaseLocation,
-          status: workerStatus, //issue in displaying status
+          baselocationdis: res.data.result.recordsets[0][0].BaseLocation,
           email: res.data.result.recordsets[0][0].UserEmail,
           imgURL: res.data.result.recordsets[0][0].ImgUrl
         });
@@ -221,6 +262,8 @@ class WorkerEditProfileComponent extends Component {
               ></Select>
             </Col>
           </FormGroup>
+
+         
         </Col>
 
         <Col
@@ -228,6 +271,8 @@ class WorkerEditProfileComponent extends Component {
           sm={{ size: 4, offset: 1 }}
           style={{ backgroundColor: "#f5f5f5" }}
         >
+          {/*   disabled edit worker details form         */}
+
           <Form
             style={{ marginTop: 40, marginLeft: 50 }}
             id="disableEditWorkerDetails"
@@ -262,23 +307,13 @@ class WorkerEditProfileComponent extends Component {
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="text" value={this.state.baselocation} disabled>
-              
-                </Input>
-
-                
+                <Input
+                  type="text"
+                  value={this.state.baselocationdis}
+                  disabled
+                ></Input>
               </Col>
             </FormGroup>
-
-            {/* <FormGroup row>
-              <Label for="statusSelect" xs={12} sm={5}>
-                Status
-              </Label>
-
-              <Col xs={10} sm={6}>
-                <Input type="select" value={this.state.status} disabled></Input>
-              </Col>
-            </FormGroup> */}
 
             <FormGroup check row style={{ marginTop: 20 }}>
               <Button color="success" onClick={this.handleEditProfile}>
@@ -286,6 +321,8 @@ class WorkerEditProfileComponent extends Component {
               </Button>
             </FormGroup>
           </Form>
+
+          {/* Enable edit worker details form */}
 
           <Form
             id="enableEditWorkerDetails"
@@ -338,9 +375,7 @@ class WorkerEditProfileComponent extends Component {
                   value={this.state.baselocation}
                   onChange={this.handleLocationSelect}
                   options={baselocations}
-                  
                 />
-               
               </Col>
             </FormGroup>
 
@@ -378,7 +413,8 @@ class WorkerEditProfileComponent extends Component {
           }}
         >
           <AddWorkerSkill />
-          <SkillComponent />
+
+          {this.loadWorkerSkillComponent()}
         </Col>
       </Row>
     );
