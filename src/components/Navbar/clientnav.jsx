@@ -65,6 +65,9 @@ class ClientNavComponent extends Component {
                   <Link to="/clientProfile">My Profile</Link>
                 </DropdownItem>
                 <DropdownItem>
+                  <Link to="/clientBooking">Book Jobs</Link>
+                </DropdownItem>
+                <DropdownItem>
                   <Link to="/clientOrder">My Orders</Link>
                 </DropdownItem>
 
