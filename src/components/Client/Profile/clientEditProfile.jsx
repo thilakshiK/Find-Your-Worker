@@ -12,23 +12,144 @@ import {
 } from "reactstrap";
 
 import "../../../assets/styles/font.css";
+import axios from "axios";
+import Select from "react-select";
+
+let baselocations = [];
 
 class ClientEditProfileComponent extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      firstname: "",
+      lastname: "",
+      phonenumber: "",
+      baselocation: "",
+      email: "",
+      userId: "",
+      imgURL: "",
+      baselocationdis: ""
+    };
+
+    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
+    this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+    this.handleLocationSelect = this.handleLocationSelect.bind(this);
+  }
+
+  componentDidMount() {
+    const userId = localStorage.getItem("UserId");
+
+    axios
+      .get("http://localhost:3000/client/profile/" + userId, {
+        withCredentials: true
+      })
+      .then(res => {
+        console.log("here", res.data.result.recordsets[0][0]);
+
+        this.setState({
+          firstname: res.data.result.recordsets[0][0].FirstName,
+          lastname: res.data.result.recordsets[0][0].LastName,
+          phonenumber: res.data.result.recordsets[0][0].ContactNumber,
+          baselocationdis: res.data.result.recordsets[0][0].BaseLocation,
+          email: res.data.result.recordsets[0][0].UserEmail,
+          imgURL: res.data.result.recordsets[0][0].ImgUrl
+        });
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+
+    //location selection
+
+    axios
+      .get("http://localhost:3000/dataservices/getalllocations", {
+        withCredentials: true
+      })
+      .then(res => {
+        let i = 0;
+        let tempArray = {};
+
+        for (i; i < res.data.recordsets[0].length; i++) {
+          tempArray["value"] = i;
+          tempArray["label"] = res.data.recordsets[0][i].DivisionalSecretary;
+          baselocations.push(tempArray);
+          tempArray = {};
+        }
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+  }
+
+  handleFirstNameChange(event) {
+    this.setState({ firstname: event.target.value });
+  }
+
+  handleLastNameChange(event) {
+    this.setState({ lastname: event.target.value });
+  }
+
+  handlePhoneNumberChange(event) {
+    this.setState({ phonenumber: event.target.value });
+  }
+
+  handleLocationSelect(baselocation) {
+    this.setState({ baselocation });
+  }
+
+  handleUpdateProfile(event) {
+    event.preventDefault();
+
+    const userID = localStorage.getItem("UserId");
+    const clientDetails = {
+      fname: this.state.firstname,
+      lname: this.state.lastname,
+      baseL: this.state.baselocation.label,
+      contactno: this.state.phonenumber
+    };
+
+    axios
+      .put("http://localhost:3000/client/profile/" + userID, clientDetails, {
+        withCredentials: true
+      })
+      .then(res => {
+        document.location.reload();
+      });
+    let enableEditClientDetails = document.getElementById(
+      "enableEditClientDetails"
+    );
+    enableEditClientDetails.style.display = "none";
+    let disableEditClientDetails = document.getElementById(
+      "disableEditClientDetails"
+    );
+    disableEditClientDetails.style.display = "block";
+  }
 
   handleEditProfile = () => {
-    let form1 = document.getElementById("form1");
-    form1.style.display = "none";
-    let form2 = document.getElementById("form2");
-    form2.style.display = "block";
+    let disableEditClientDetails = document.getElementById(
+      "disableEditClientDetails"
+    );
+    disableEditClientDetails.style.display = "none";
+    let enableEditClientDetails = document.getElementById(
+      "enableEditClientDetails"
+    );
+    enableEditClientDetails.style.display = "block";
   };
 
-  handleUpdateProfile = () => {
-    let form2 = document.getElementById("form2");
-    form2.style.display = "none";
-    let form1 = document.getElementById("form1");
-    form1.style.display = "block";
-  };
+  handleCancelUpdateProfile() {
+    let enableEditClientDetails = document.getElementById(
+      "enableEditClientDetails"
+    );
+    enableEditClientDetails.style.display = "none";
+    let disableEditClientDetails = document.getElementById(
+      "disableEditClientDetails"
+    );
+    disableEditClientDetails.style.display = "block";
+  }
   render() {
     return (
       <Row style={{ marginTop: 50, fontFamily: "Josefin Sans", fontSize: 20 }}>
@@ -55,18 +176,14 @@ class ClientEditProfileComponent extends Component {
             Upload New Photo
           </Button>
 
-          <FormGroup row style={{  marginTop: 20 }}>
-              <Label for="email" xs={12} sm={4}>
-                Email
-              </Label>
-              <Col xs={10} sm={8}>
-                <Input
-                  type="email"
-                  //placeholder="first name"
-                  disabled
-                />
-              </Col>
-            </FormGroup>
+          <FormGroup row style={{ marginTop: 20 }}>
+            <Label for="email" xs={12} sm={4}>
+              Email
+            </Label>
+            <Col xs={10} sm={8}>
+              <Input type="email" value={this.state.email} disabled />
+            </Col>
+          </FormGroup>
         </Col>
 
         <Col
@@ -74,19 +191,18 @@ class ClientEditProfileComponent extends Component {
           sm={{ size: 5, offset: 1 }}
           style={{ backgroundColor: "#f5f5f5" }}
         >
-          <Form style={{ marginTop: 40, marginLeft: 50 }} id="form1">
+          {/*   disabled edit client details form         */}
+
+          <Form
+            style={{ marginTop: 40, marginLeft: 50 }}
+            id="disableEditClientDetails"
+          >
             <FormGroup row>
               <Label for="firstName" xs={12} sm={5}>
                 First Name
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="firstname"
-                  id="firstname"
-                  placeholder="first name"
-                  disabled
-                />
+                <Input type="text" value={this.state.firstname} disabled />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -94,13 +210,7 @@ class ClientEditProfileComponent extends Component {
                 Last Name
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="lastname"
-                  id="lastname"
-                  placeholder="last name"
-                  disabled
-                />
+                <Input type="text" value={this.state.lastname} disabled />
               </Col>
             </FormGroup>
 
@@ -109,13 +219,7 @@ class ClientEditProfileComponent extends Component {
                 Phone Number
               </Label>
               <Col xs={10} sm={6}>
-                <Input
-                  type="text"
-                  name="contactnumber"
-                  id="contactnumber"
-                  placeholder="phone number"
-                  disabled
-                />
+                <Input type="text" value={this.state.phonenumber} disabled />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -123,11 +227,11 @@ class ClientEditProfileComponent extends Component {
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="locationSelect" disabled>
-                  <option>Kollupitiya</option>
-                  <option>Dehiwala</option>
-                  {/* select base locations from db */}
-                </Input>
+                <Input
+                  type="text"
+                  value={this.state.baselocationdis}
+                  disabled
+                ></Input>
               </Col>
             </FormGroup>
 
@@ -138,9 +242,11 @@ class ClientEditProfileComponent extends Component {
             </FormGroup>
           </Form>
 
+          {/* Enable edit client details form */}
+
           <Form
             style={{ marginTop: 40, marginLeft: 50, display: "none" }}
-            id="form2"
+            id="enableEditClientDetails"
           >
             <FormGroup row>
               <Label for="firstName" xs={12} sm={5}>
@@ -149,9 +255,8 @@ class ClientEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="firstname"
-                  id="firstname"
-                  placeholder="first name"
+                  value={this.state.firstname}
+                  onChange={this.handleFirstNameChange}
                 />
               </Col>
             </FormGroup>
@@ -162,9 +267,8 @@ class ClientEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="lastname"
-                  id="lastname"
-                  placeholder="last name"
+                  value={this.state.lastname}
+                  onChange={this.handleLastNameChange}
                 />
               </Col>
             </FormGroup>
@@ -176,9 +280,8 @@ class ClientEditProfileComponent extends Component {
               <Col xs={10} sm={6}>
                 <Input
                   type="text"
-                  name="contactnumber"
-                  id="contactnumber"
-                  placeholder="phone number"
+                  value={this.state.phonenumber}
+                  onChange={this.handlePhoneNumberChange}
                 />
               </Col>
             </FormGroup>
@@ -187,11 +290,11 @@ class ClientEditProfileComponent extends Component {
                 Base Location
               </Label>
               <Col xs={10} sm={6}>
-                <Input type="select" name="select" id="locationSelect">
-                  <option>Kollupitiya</option>
-                  <option>Dehiwala</option>
-                  {/* select base locations from db */}
-                </Input>
+                <Select
+                  value={this.state.baselocation}
+                  onChange={this.handleLocationSelect}
+                  options={baselocations}
+                />
               </Col>
             </FormGroup>
 
@@ -209,7 +312,7 @@ class ClientEditProfileComponent extends Component {
               <Col xs={{ size: 6, offset: 1 }} sm={{ size: 5, offset: 1 }}>
                 <Button
                   color="warning"
-                  onClick={this.handleUpdateProfile}
+                  onClick={this.handleCancelUpdateProfile}
                   style={{ width: 130 }}
                 >
                   Cancel
