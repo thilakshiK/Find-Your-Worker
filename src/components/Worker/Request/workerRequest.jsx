@@ -28,7 +28,7 @@ class WorkerRequestComponent extends Component {
     const userId = localStorage.getItem("UserId");
 
     axios
-    .get("http://localhost:3000/requests/pool/worker/3", {
+    .get("http://localhost:3000/requests/pool/worker/" + userId , {
       withCredentials: true
     })
     .then(res => {

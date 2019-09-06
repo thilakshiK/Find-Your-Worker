@@ -57,6 +57,8 @@ export class CurrentLocation extends React.Component {
                   lng: coords.longitude
                 }
               });
+
+             
             });
           }
         }

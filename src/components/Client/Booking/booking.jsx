@@ -13,9 +13,34 @@ import {
   Label,
   Input
 } from "reactstrap";
+import Select from "react-select";
+import axios from "axios";
+let skillList = [];
 
 class BookingComponent extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      skill: "",
+      skillId: "",
+      description: "",
+      startTime: "",
+      endTime: "",
+      date: "",
+      result: [],
+      availableWorkers: []
+    };
+
+    this.handleSkillChange = this.handleSkillChange.bind(this);
+    this.handleBookNow = this.handleBookNow.bind(this);
+    this.handleBookLater = this.handleBookLater.bind(this);
+    this.handleSendRequest = this.handleSendRequest.bind(this);
+    this.handleCancelRequest = this.handleCancelRequest.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
+    this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+  }
 
   h5 = {
     fontFamily: "Josefin Sans",
@@ -23,23 +48,106 @@ class BookingComponent extends Component {
     marginTop: 20
   };
 
-  handleBookNow = () => {
+  componentDidMount() {
+    // worker skill selection
+
+    axios
+      .get("http://localhost:3000/dataservices/getallskills", {
+        withCredentials: true
+      })
+      .then(res => {
+        let temArray = {};
+
+        for (let i = 0; i < res.data.recordsets[0].length; i++) {
+          temArray["value"] = res.data.recordsets[0][i].SkillId;
+          temArray["label"] = res.data.recordsets[0][i].SkillTitle;
+          skillList.push(temArray);
+          temArray = {};
+        }
+      })
+      .catch(function(error) {
+        // console.log(error);
+      });
+  }
+
+  handleSkillChange(skill) {
+    this.setState({
+      skill: skill,
+      skillId: skill.value
+    });
+  }
+
+  handleChangeStartTime(event) {
+    this.setState({ startTime: event.target.value });
+  }
+
+  handleChangeEndTime(event) {
+    this.setState({ endTime: event.target.value });
+  }
+
+  handleDescriptionChange(event) {
+    this.setState({ description: event.target.value });
+  }
+
+  handleChangeDate(event) {
+    this.setState({ date: event.target.value });
+  }
+
+  handleBookNow() {
     let booklater = document.getElementById("booklaterform");
     booklater.style.display = "none";
     let booknow = document.getElementById("mapcontainer");
     booknow.style.display = "block";
-  };
+  }
 
-  handleBookLater = () => {
+  handleBookLater() {
     let booknow = document.getElementById("mapcontainer");
     booknow.style.display = "none";
     let booklater = document.getElementById("booklaterform");
     booklater.style.display = "block";
-  };
+  }
 
-  handleSendRequest = () => {};
+  handleSendRequest() {
+    let searchWorkerRequest = {
+      skillId: this.state.skillId,
+      orderDate: this.state.date,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      coordinate: null,
+      clientId: localStorage.getItem("UserId")
+    };
 
-  handleCancelRequest = () => {};
+    axios
+      .post("http://localhost:3000/bookLater/search", searchWorkerRequest, {
+        withCredentials: true
+      })
+      .then(response => {
+        console.log(response.data);
+        if (response.data.message == "No workers available") {
+          alert("No Workers Available");
+        } else if (response.data.message == "OK") {
+          if (response.data.result.Workers.length > 0) {
+            //console.log(response.data.result)
+            this.setState({ result: response.data.result });
+            this.setState({ availableWorkers: response.data.result.Workers });
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .post("http://localhost:3000/bookLater/sendRequest", this.state.result)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  handleCancelRequest() {}
 
   render() {
     return (
@@ -56,17 +164,28 @@ class BookingComponent extends Component {
                     Job Type
                   </Label>
                   <Col xs={10} sm={6}>
-                    <Input type="select" name="select" id="jobTypeSelect">
+                    <Select
+                      value={this.state.skill}
+                      onChange={this.handleSkillChange}
+                      options={skillList}
+                      placeholder="Skills"
+                    />
+                    {/* <Input type="select" name="select" id="jobTypeSelect">
                       <option>Mechanic</option>
                       <option>Plumber</option>
-                      {/* select base locations from db */}
-                    </Input>
+                     
+                    </Input> */}
                   </Col>
                 </FormGroup>
 
                 <FormGroup>
                   <Label for="exampleText">Job Description</Label>
-                  <Input type="textarea" name="text" id="exampleText" />
+                  <Input
+                    type="textarea"
+                    value={this.state.description}
+                    onChange={this.handleDescriptionChange}
+                    placeholder="description"
+                  />
                 </FormGroup>
 
                 <FormGroup check row style={{ marginTop: 20 }}>
@@ -92,9 +211,10 @@ class BookingComponent extends Component {
             <Col
               sm={{ size: 4, offset: 1 }}
               style={{ backgroundColor: "#ffffc5" }}
-            > <h5 style={this.h5}>Pending Requests</h5>
-            <PendingRequest reqId = "2345"/>
-
+            >
+              {" "}
+              <h5 style={this.h5}>Pending Requests</h5>
+              <PendingRequest reqId="2345" />
             </Col>
           </Row>
 
@@ -102,7 +222,6 @@ class BookingComponent extends Component {
             <Col sm="7">
               <div id="mapcontainer" style={{ display: "none" }}>
                 <FormGroup row style={{ width: "800px", height: "500px" }}>
-                 
                   <MapContainer style={{ width: "50%", height: "50%" }} />
                 </FormGroup>
 
@@ -127,16 +246,42 @@ class BookingComponent extends Component {
                       Date
                     </Label>
                     <Col xs={10} sm={6}>
-                      <Input type="date" required />
+                      <Input
+                        type="date"
+                        value={this.state.date}
+                        onChange={this.handleChangeDate}
+                        required
+                      />
                     </Col>
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="time" xs={12} sm={{ size: 5, offset: 1 }}>
-                      Time
+                    <Label for="starttime" xs={12} sm={{ size: 5, offset: 1 }}>
+                      Start Time
                     </Label>
                     <Col xs={10} sm={6}>
-                      <Input type="time" required />
+                      <Input
+                        type="time"
+                        id="starttime "
+                        value={this.state.startTime}
+                        onChange={this.handleChangeStartTime}
+                        required
+                      />
+                    </Col>
+                  </FormGroup>
+
+                  <FormGroup row>
+                    <Label for="endtime" xs={12} sm={{ size: 5, offset: 1 }}>
+                      End Time
+                    </Label>
+                    <Col xs={10} sm={6}>
+                      <Input
+                        type="time"
+                        id="endtime"
+                        value={this.state.endTime}
+                        onChange={this.handleChangeEndTime}
+                        required
+                      />
                     </Col>
                   </FormGroup>
 
