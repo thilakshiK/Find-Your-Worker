@@ -262,8 +262,6 @@ class WorkerEditProfileComponent extends Component {
               ></Select>
             </Col>
           </FormGroup>
-
-         
         </Col>
 
         <Col
