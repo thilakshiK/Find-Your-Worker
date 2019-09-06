@@ -11,22 +11,15 @@ import {
   Input
 } from "reactstrap";
 import "../../../assets/styles/font.css";
-import axios from "axios";
 
-class UpcomingJobComponent extends React.Component {
+class OngoingJobComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
-      reason: "",
-      orderid: ""
+      modal: false
     };
 
     this.toggle = this.toggle.bind(this);
-    this.handleCancelUpcomingJob = this.handleCancelUpcomingJob.bind(this);
-    this.handleConfirmCancel = this.handleConfirmCancel.bind(this);
-    this.handleReasonChange = this.handleReasonChange.bind(this);
-    this.handleStartJob = this.handleStartJob.bind(this);
   }
 
   toggle() {
@@ -35,56 +28,11 @@ class UpcomingJobComponent extends React.Component {
     }));
   }
 
-  componentWillMount() {
-    this.setState({
-      orderid: this.props.obj.OrderId
-    });
-  }
-
-  handleCancelUpcomingJob() {
-    let cancelButton = document.getElementById("cancelButton");
-    let startButton = document.getElementById("startButton");
-    cancelButton.style.display = "none";
-    startButton.style.display = "none";
-    let confirmCancel = document.getElementById("confirmCancel");
-    confirmCancel.style.display = "block";
-  }
-
-  handleReasonChange(event) {
-    this.setState({ reason: event.target.value });
-    console.log(this.state.reason);
-  }
-
-  handleConfirmCancel() {
-    const cancelOrderDetails = {
-      OrderId: this.state.orderid,
-      Reason: this.state.reason
-    };
-
-    axios
-      .put(
-        "http://localhost:3000/ordersWorker/cancelOrder",
-        cancelOrderDetails,
-        {
-          withCredentials: true
-        }
-      )
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-      });
-
-    this.toggle();
-  }
-
-  handleStartJob(){
-
-  }
   render() {
     return (
       <div style={{ fontFamily: "Josefin Sans" }}>
         <Button
-          color="warning"
+          color="info"
           onClick={this.toggle}
           style={{ width: 300, margin: 20 }}
         >
@@ -95,7 +43,7 @@ class UpcomingJobComponent extends React.Component {
           toggle={this.toggle}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.toggle}>Upcoming Job</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Ongoing Job</ModalHeader>
           <ModalBody style={{ fontFamily: "Josefin Sans" }}>
             <Form>
               <FormGroup>
@@ -117,6 +65,7 @@ class UpcomingJobComponent extends React.Component {
                   disabled
                 />
               </FormGroup>
+
               <FormGroup>
                 <Label for="location">Order Location</Label>
                 <Input
@@ -135,7 +84,6 @@ class UpcomingJobComponent extends React.Component {
                   id="orderdate"
                   disabled
                 />
-                {/* date must be added automatically */}
               </FormGroup>
 
               <FormGroup>
@@ -169,11 +117,21 @@ class UpcomingJobComponent extends React.Component {
               </FormGroup>
 
               <FormGroup>
-                <Label for="starttime">Expected Start Time</Label>
+                <Label for="starttime"> Start Time</Label>
+                <Input
+                  type="time"
+                  value={this.props.obj.StartTime}
+                  id="starttime"
+                  disabled
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Label for="expectedstarttime">Expected Start Time</Label>
                 <Input
                   type="time"
                   value={this.props.obj.ExpectedStartTime}
-                  id="starttime"
+                  id="expectedstarttime"
                   disabled
                 />
               </FormGroup>
@@ -209,42 +167,18 @@ class UpcomingJobComponent extends React.Component {
               </FormGroup>
             </Form>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              color="success"
-              onClick={this.handleStartJob}
-              id="startButton"
-            >
-              start
-            </Button>
-            <Button
-              color="secondary"
-              onClick={this.handleCancelUpcomingJob}
-              id="cancelButton"
-            >
+          {/* <ModalFooter>
+            <Button color="success" onClick={this.toggle}>
+              Start
+            </Button>{" "}
+            <Button color="secondary" onClick={this.toggle}>
               Cancel
             </Button>
-
-            <div id="confirmCancel" style={{ display: "none" }}>
-              <FormGroup style={{ width: 300 }}>
-                <Label for="reason">Reason</Label>
-                <Input
-                  type="textarea"
-                  value={this.state.reason}
-                  onChange={this.handleReasonChange}
-                  id="reason"
-                />
-              </FormGroup>
-
-              <Button color="danger" onClick={this.handleConfirmCancel}>
-                Confirm Cancel
-              </Button>
-            </div>
-          </ModalFooter>
+          </ModalFooter> */}
         </Modal>
       </div>
     );
   }
 }
 
-export default UpcomingJobComponent;
+export default OngoingJobComponent;

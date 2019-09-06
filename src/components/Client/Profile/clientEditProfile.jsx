@@ -48,8 +48,6 @@ class ClientEditProfileComponent extends Component {
         withCredentials: true
       })
       .then(res => {
-        console.log("here", res.data.result.recordsets[0][0]);
-
         this.setState({
           firstname: res.data.result.recordsets[0][0].FirstName,
           lastname: res.data.result.recordsets[0][0].LastName,
