@@ -314,7 +314,7 @@ class WorkerEditProfileComponent extends Component {
             </FormGroup>
 
             <FormGroup check row style={{ marginTop: 20 }}>
-              <Button color="success" onClick={this.handleEditProfile}>
+              <Button color="success" onClick={this.handleEditProfile} id="editprofile">
                 Edit Profile
               </Button>
             </FormGroup>

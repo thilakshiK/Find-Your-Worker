@@ -14,8 +14,8 @@ export default class SingupFormComponent extends React.Component {
       password: "",
       phonenumber: "",
       usertype: "",
-      visibleSuccess :false,
-      visibleFailure :false
+      visibleSuccess: false,
+      visibleFailure: false
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -43,16 +43,20 @@ export default class SingupFormComponent extends React.Component {
     this.setState({ usertype: usertype });
   }
 
-  onDismissSuccess(){
-    this.setState({visibleSuccess :false});
+  onDismissSuccess() {
+    this.setState({ visibleSuccess: false });
   }
 
-  onDismissFailure(){
-    this.setState({visibleFailure :false});
+  onDismissFailure() {
+    this.setState({ visibleFailure: false });
   }
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0 && this.state.phonenumber.length <11;
+    return (
+      this.state.email.length > 0 &&
+      this.state.password.length > 0 &&
+      this.state.phonenumber.length < 11
+    );
   }
 
   handleSubmit(event) {
@@ -74,19 +78,16 @@ export default class SingupFormComponent extends React.Component {
             password: "",
             phonenumber: "",
             usertype: "",
-            visibleSuccess :true
-          })
-         
+            visibleSuccess: true
+          });
         } else {
           this.setState({
             email: "",
             password: "",
             phonenumber: "",
             usertype: "",
-            visibleFailure : true
-           
+            visibleFailure: true
           });
-         
         }
       });
   }
@@ -120,6 +121,7 @@ export default class SingupFormComponent extends React.Component {
               value={this.state.email}
               onChange={this.handleEmailChange}
               placeholder="Email"
+              id="email"
               required
             />
           </FormGroup>
@@ -129,6 +131,7 @@ export default class SingupFormComponent extends React.Component {
               value={this.state.password}
               onChange={this.handlePasswordChange}
               placeholder="Password "
+              id="password"
               required
             />
           </FormGroup>
@@ -139,6 +142,7 @@ export default class SingupFormComponent extends React.Component {
               value={this.state.phonenumber}
               onChange={this.handlePhoneNumberChange}
               placeholder="Contact Number"
+              id="contactno"
               required
             />
           </FormGroup>
@@ -147,6 +151,7 @@ export default class SingupFormComponent extends React.Component {
             <Select
               options={options}
               placeholder="User Type"
+              name="userType"
               onChange={this.handleSelect}
               value={this.state.usertype}
             ></Select>
@@ -165,7 +170,7 @@ export default class SingupFormComponent extends React.Component {
             isOpen={this.state.visibleFailure}
             toggle={this.onDismissFailure}
           >
-            User already exists ! 
+            User already exists !
           </Alert>
 
           <Input

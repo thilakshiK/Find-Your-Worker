@@ -100,6 +100,8 @@ export default class LoginFormComponent extends React.Component {
               value={this.state.email}
               onChange={this.handleEmailChange}
               placeholder="Email"
+              id = "email"
+
               required
             />
           </FormGroup>
@@ -109,6 +111,7 @@ export default class LoginFormComponent extends React.Component {
               value={this.state.password}
               onChange={this.handlePasswordChange}
               placeholder="Password "
+              id = "password"
               required
             />
           </FormGroup>
