@@ -48,7 +48,7 @@ class WorkerJobComponent extends Component {
     //get upcoming order details
 
     axios
-      .get("http://localhost:3000/ordersWorker/getUpComingOrders/4" , {
+      .get("http://localhost:3000/ordersWorker/getUpComingOrders/" + userId, {
         withCredentials: true
       })
       .then(res => {

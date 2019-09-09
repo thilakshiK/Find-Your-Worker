@@ -11,7 +11,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Alert
 } from "reactstrap";
 import Select from "react-select";
 import axios from "axios";
@@ -23,23 +24,28 @@ class BookingComponent extends Component {
     this.state = {
       skill: "",
       skillId: "",
-      description: "",
       startTime: "",
       endTime: "",
       date: "",
-      result: [],
+      visibleSuccess: false,
+      user: [],
       availableWorkers: []
     };
 
     this.handleSkillChange = this.handleSkillChange.bind(this);
     this.handleBookNow = this.handleBookNow.bind(this);
     this.handleBookLater = this.handleBookLater.bind(this);
-    this.handleSendRequest = this.handleSendRequest.bind(this);
-    this.handleCancelRequest = this.handleCancelRequest.bind(this);
+    this.handleSendBookLaterRequest = this.handleSendBookLaterRequest.bind(
+      this
+    );
+    this.handleCancelBookLater = this.handleCancelBookLater.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
     this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.onDismissSuccess = this.onDismissSuccess.bind(this);
+    this.handleSendBookNowRequest = this.handleSendBookNowRequest.bind(this)
+    this.handleCancelBookNow = this.handleCancelBookNow.bind(this)
   }
 
   h5 = {
@@ -77,6 +83,10 @@ class BookingComponent extends Component {
     });
   }
 
+  onDismissSuccess() {
+    this.setState({ visibleSuccess: false });
+  }
+
   handleChangeStartTime(event) {
     this.setState({ startTime: event.target.value });
   }
@@ -107,7 +117,19 @@ class BookingComponent extends Component {
     booklater.style.display = "block";
   }
 
-  handleSendRequest() {
+  handleSendBookNowRequest(){
+    
+
+  }
+
+
+  handleCancelBookNow(){
+    let booknow = document.getElementById("mapcontainer");
+    booknow.style.display = "none";
+
+  }
+
+  handleSendBookLaterRequest() {
     let searchWorkerRequest = {
       skillId: this.state.skillId,
       orderDate: this.state.date,
@@ -122,32 +144,51 @@ class BookingComponent extends Component {
         withCredentials: true
       })
       .then(response => {
-        console.log(response.data);
         if (response.data.message == "No workers available") {
           alert("No Workers Available");
         } else if (response.data.message == "OK") {
           if (response.data.result.Workers.length > 0) {
-            //console.log(response.data.result)
-            this.setState({ result: response.data.result });
+            this.setState({ user: response.data.result.User });
             this.setState({ availableWorkers: response.data.result.Workers });
           }
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
 
-    axios
-      .post("http://localhost:3000/bookLater/sendRequest", this.state.result)
-      .then(response => {
-        console.log(response.data);
+          let sendReq = {
+            User: this.state.user,
+            Workers: this.state.availableWorkers
+          };
+
+          axios
+            .post("http://localhost:3000/bookLater/sendRequest", sendReq)
+            .then(response => {
+              console.log("send request", response.data);
+              this.setState({
+                startTime: "",
+                endTime: "",
+                date: "",
+                skill: "",
+                visibleSuccess: true
+              });
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  handleCancelRequest() {}
+  handleCancelBookLater() {
+    let booklater = document.getElementById("booklaterform");
+    booklater.style.display = "none";
+    this.setState({
+      startTime: "",
+      endTime: "",
+      date: "",
+      skill: ""
+    });
+  }
 
   render() {
     return (
@@ -170,22 +211,7 @@ class BookingComponent extends Component {
                       options={skillList}
                       placeholder="Skills"
                     />
-                    {/* <Input type="select" name="select" id="jobTypeSelect">
-                      <option>Mechanic</option>
-                      <option>Plumber</option>
-                     
-                    </Input> */}
                   </Col>
-                </FormGroup>
-
-                <FormGroup>
-                  <Label for="exampleText">Job Description</Label>
-                  <Input
-                    type="textarea"
-                    value={this.state.description}
-                    onChange={this.handleDescriptionChange}
-                    placeholder="description"
-                  />
                 </FormGroup>
 
                 <FormGroup check row style={{ marginTop: 20 }}>
@@ -227,12 +253,12 @@ class BookingComponent extends Component {
 
                 <FormGroup row>
                   <Col xs={{ size: 5 }} sm={{ size: 5, offset: 1 }}>
-                    <Button color="success" onClick={this.handleSendRequest}>
+                    <Button color="success" onClick={this.handleSendBookNowRequest}>
                       Send Request
                     </Button>
                   </Col>
                   <Col xs={{ size: 5 }} sm={{ size: 5, offset: 1 }}>
-                    <Button color="info" onClick={this.handleCancelRequest}>
+                    <Button color="info" onClick={this.handleCancelBookNow}>
                       Cancel
                     </Button>
                   </Col>
@@ -287,16 +313,27 @@ class BookingComponent extends Component {
 
                   <FormGroup row>
                     <Col xs={{ size: 5 }} sm={{ size: 5, offset: 1 }}>
-                      <Button color="success" onClick={this.handleSendRequest}>
+                      <Button
+                        color="success"
+                        onClick={this.handleSendBookLaterRequest}
+                      >
                         Send Request
                       </Button>
                     </Col>
                     <Col xs={{ size: 5 }} sm={{ size: 5, offset: 1 }}>
-                      <Button color="info" onClick={this.handleCancelRequest}>
+                      <Button color="info" onClick={this.handleCancelBookLater}>
                         Cancel
                       </Button>
                     </Col>
                   </FormGroup>
+
+                  <Alert
+                    color="success"
+                    isOpen={this.state.visibleSuccess}
+                    toggle={this.onDismissSuccess}
+                  >
+                    Request is send successfully !
+                  </Alert>
                 </Form>
               </div>
             </Col>
