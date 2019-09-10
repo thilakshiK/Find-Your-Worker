@@ -20,6 +20,7 @@ class OngoingJobComponent extends React.Component {
     };
 
     this.toggle = this.toggle.bind(this);
+    this.handleFinishJob = this.handleFinishJob.bind(this);
   }
 
   toggle() {
@@ -27,6 +28,8 @@ class OngoingJobComponent extends React.Component {
       modal: !prevState.modal
     }));
   }
+
+  handleFinishJob() {}
 
   render() {
     return (
@@ -167,6 +170,11 @@ class OngoingJobComponent extends React.Component {
               </FormGroup>
             </Form>
           </ModalBody>
+          <ModalFooter>
+            <Button color="success" onClick={this.handleFinishJob}>
+              Finish Job
+            </Button>
+          </ModalFooter>
         </Modal>
       </div>
     );
