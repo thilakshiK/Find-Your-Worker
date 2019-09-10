@@ -167,14 +167,6 @@ class OngoingJobComponent extends React.Component {
               </FormGroup>
             </Form>
           </ModalBody>
-          {/* <ModalFooter>
-            <Button color="success" onClick={this.toggle}>
-              Start
-            </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
-              Cancel
-            </Button>
-          </ModalFooter> */}
         </Modal>
       </div>
     );

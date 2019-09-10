@@ -9,21 +9,32 @@ import WorkerJobComponent from "./components/Worker/Job/workerjobs";
 import WorkerRequestComponent from "./components/Worker/Request/workerRequest";
 import ClientProfileComponent from "./components/Client/Profile/clientProfile";
 import BookingComponent from "./components/Client/Booking/booking";
+import ClientOrderComponent from "./components/Client/Orders/clientorders";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
   return (
-    <div >
+    <div>
       <Router>
         <Switch>
           <Route exact path="/" component={WelcomeComponent}></Route>
           <Route path="/login" component={LoginFormComponent}></Route>
           <Route path="/signup" component={SingupFormComponent}></Route>
-          <Route path="/workerProfile" component={WorkerProfileComponent}></Route>
-          <Route path="/workerJob" component = {WorkerJobComponent}></Route>
-          <Route path="/workerRequest" component = {WorkerRequestComponent}></Route>
-          <Route path="/clientProfile" component={ClientProfileComponent}></Route>
+          <Route
+            path="/workerProfile"
+            component={WorkerProfileComponent}
+          ></Route>
+          <Route path="/workerJob" component={WorkerJobComponent}></Route>
+          <Route
+            path="/workerRequest"
+            component={WorkerRequestComponent}
+          ></Route>
+          <Route
+            path="/clientProfile"
+            component={ClientProfileComponent}
+          ></Route>
           <Route path="/clientBooking" component={BookingComponent}></Route>
+          <Route path="/clientOrder" component={ClientOrderComponent}></Route>
         </Switch>
       </Router>
     </div>

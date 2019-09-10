@@ -45,16 +45,6 @@ class CompletedJobComponent extends React.Component {
           <ModalHeader toggle={this.toggle}>Completed Job</ModalHeader>
           <ModalBody style={{ fontFamily: "Josefin Sans" }}>
             <Form>
-              {/* <FormGroup>
-                <Label for="createdDate">Created Date</Label>
-                <Input
-                  type="date"
-                  value={this.props.obj.CreatedDate.data}
-                  id="createdDate"
-                  disabled
-                />
-              </FormGroup> */}
-
               <FormGroup>
                 <Label for="clientFirstName">Client First Name</Label>
                 <Input
