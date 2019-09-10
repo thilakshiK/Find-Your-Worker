@@ -29,7 +29,9 @@ class BookingComponent extends Component {
       date: "",
       visibleSuccess: false,
       user: [],
-      availableWorkers: []
+      availableWorkers: [],
+      bookNowWorkers: [],
+      workerIds: []
     };
 
     this.handleSkillChange = this.handleSkillChange.bind(this);
@@ -44,8 +46,8 @@ class BookingComponent extends Component {
     this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.onDismissSuccess = this.onDismissSuccess.bind(this);
-    this.handleSendBookNowRequest = this.handleSendBookNowRequest.bind(this)
-    this.handleCancelBookNow = this.handleCancelBookNow.bind(this)
+    this.handleSendBookNowRequest = this.handleSendBookNowRequest.bind(this);
+    this.handleCancelBookNow = this.handleCancelBookNow.bind(this);
   }
 
   h5 = {
@@ -117,16 +119,59 @@ class BookingComponent extends Component {
     booklater.style.display = "block";
   }
 
-  handleSendBookNowRequest(){
-    
+  handleSendBookNowRequest() {
+    var getNearByWorkers = {
+      clientId: localStorage.getItem("UserId"),
+      jobType: this.state.skillId,
+      cordinate: localStorage.getItem("Lat") + "," + localStorage.getItem("Lng")
+    };
 
+    axios
+      .post("http://localhost:3000/booknow/booknow", getNearByWorkers, {
+        withCredentials: true
+      })
+      .then(res => {
+        if (res.data.result.workers.length == 0) {
+          alert("No available workers");
+        } else {
+          this.setState({
+            bookNowWorkers: res.data.result.workers
+          });
+        }
+        this.state.bookNowWorkers.forEach(worker => {
+          this.state.workerIds.push(worker.WorkerId);
+        });
+
+        var sendUrgentReq = {
+          clientId: localStorage.getItem("UserId"),
+          jobTypeId: this.state.skillId,
+          orderDate: this.state.date,
+          location:
+            localStorage.getItem("Lat") + "," + localStorage.getItem("Lng"),
+          workers: this.state.workerIds
+        };
+
+        axios.post(
+          "http://localhost:3000/booknow/sendUrgentRequest",
+          sendUrgentReq,
+          {
+            withCredentials: true
+          }
+        ).then(res =>{
+          
+          this.setState({
+            date : "",
+            skill : ""
+          })
+
+          alert("Request is send successfully")
+        });
+      });
   }
 
-
-  handleCancelBookNow(){
+  handleCancelBookNow() {
     let booknow = document.getElementById("mapcontainer");
     booknow.style.display = "none";
-
   }
 
   handleSendBookLaterRequest() {
@@ -214,6 +259,20 @@ class BookingComponent extends Component {
                   </Col>
                 </FormGroup>
 
+                <FormGroup row>
+                  <Label for="date" xs={12} sm={{ size: 5 }}>
+                    Date
+                  </Label>
+                  <Col xs={10} sm={6}>
+                    <Input
+                      type="date"
+                      value={this.state.date}
+                      onChange={this.handleChangeDate}
+                      required
+                    />
+                  </Col>
+                </FormGroup>
+
                 <FormGroup check row style={{ marginTop: 20 }}>
                   <Button
                     color="info"
@@ -253,7 +312,10 @@ class BookingComponent extends Component {
 
                 <FormGroup row>
                   <Col xs={{ size: 5 }} sm={{ size: 5, offset: 1 }}>
-                    <Button color="success" onClick={this.handleSendBookNowRequest}>
+                    <Button
+                      color="success"
+                      onClick={this.handleSendBookNowRequest}
+                    >
                       Send Request
                     </Button>
                   </Col>
@@ -267,20 +329,6 @@ class BookingComponent extends Component {
 
               <div id="booklaterform" style={{ display: "none" }}>
                 <Form style={{ backgroundColor: "#d1eecc", marginTop: 30 }}>
-                  <FormGroup row>
-                    <Label for="date" xs={12} sm={{ size: 5, offset: 1 }}>
-                      Date
-                    </Label>
-                    <Col xs={10} sm={6}>
-                      <Input
-                        type="date"
-                        value={this.state.date}
-                        onChange={this.handleChangeDate}
-                        required
-                      />
-                    </Col>
-                  </FormGroup>
-
                   <FormGroup row>
                     <Label for="starttime" xs={12} sm={{ size: 5, offset: 1 }}>
                       Start Time
