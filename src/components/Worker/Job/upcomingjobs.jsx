@@ -77,8 +77,35 @@ class UpcomingJobComponent extends React.Component {
     this.toggle();
   }
 
-  handleStartJob(){
+  handleStartJob() {
+    const tempDate = new Date();
+    const currentTime =
+      tempDate.getHours() +
+      ":" +
+      tempDate.getMinutes() +
+      ":" +
+      tempDate.getSeconds();
 
+    if (localStorage.getItem("startedOrderId") != null) {
+      alert("There is Another Ongoing Job");
+    } else {
+      if (localStorage.getItem("startedOrderId") == null) {
+        localStorage.setItem("startedOrderId", this.props.obj.OrderId);
+        //create the req.body to send
+        let startJob = {
+          OrderId: this.props.obj.OrderId,
+          StartTime: currentTime
+        };
+        axios
+          .put("http://localhost:3000/ordersWorker/startOrder", startJob, {
+            withCredentials: true
+          })
+          .then(response => {
+            console.log(response.data);
+          });
+        window.location.reload()
+      }
+    }
   }
   render() {
     return (
