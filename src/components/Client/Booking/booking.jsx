@@ -137,35 +137,37 @@ class BookingComponent extends Component {
           this.setState({
             bookNowWorkers: res.data.result.workers
           });
+
+          this.state.bookNowWorkers.forEach(worker => {
+            this.state.workerIds.push(worker.WorkerId);
+          });
+
+          var sendUrgentReq = {
+            clientId: localStorage.getItem("UserId"),
+            jobTypeId: this.state.skillId,
+            orderDate: this.state.date,
+            location:
+              localStorage.getItem("Lat") + "," + localStorage.getItem("Lng"),
+            workers: this.state.workerIds
+          };
+
+          axios
+            .post(
+              "http://localhost:3000/booknow/sendUrgentRequest",
+              sendUrgentReq,
+              {
+                withCredentials: true
+              }
+            )
+            .then(res => {
+              this.setState({
+                date: "",
+                skill: ""
+              });
+
+              alert("Request is send successfully");
+            });
         }
-        this.state.bookNowWorkers.forEach(worker => {
-          this.state.workerIds.push(worker.WorkerId);
-        });
-
-        var sendUrgentReq = {
-          clientId: localStorage.getItem("UserId"),
-          jobTypeId: this.state.skillId,
-          orderDate: this.state.date,
-          location:
-            localStorage.getItem("Lat") + "," + localStorage.getItem("Lng"),
-          workers: this.state.workerIds
-        };
-
-        axios.post(
-          "http://localhost:3000/booknow/sendUrgentRequest",
-          sendUrgentReq,
-          {
-            withCredentials: true
-          }
-        ).then(res =>{
-          
-          this.setState({
-            date : "",
-            skill : ""
-          })
-
-          alert("Request is send successfully")
-        });
       });
   }
 
