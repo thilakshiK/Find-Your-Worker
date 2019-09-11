@@ -40,7 +40,8 @@ class AddWorkerSkill extends Component {
   }
 
   handleCancelAddingSkill(event) {
-    //event.preventDefault();
+    event.preventDefault();
+    {this.toggle()}
   }
 
   handleSkillChange(skill) {
@@ -138,16 +139,12 @@ class AddWorkerSkill extends Component {
             <CardBody>
               <Form style={{ padding: 40 }}>
                 <FormGroup>
-                  {/* <Label for="exampleSelect">Skill Type</Label> */}
-                  {/* <Input type="select" name="select" id="exampleSelect">
-                    <option>Mechanic</option>
-                    <option>Driver</option>
-                  </Input> */}
                   <Select
                     value={this.state.skill}
                     onChange={this.handleSkillChange}
                     options={skillList}
                     placeholder="Skills"
+                    
                   />
                 </FormGroup>
                 <FormGroup row>
@@ -156,6 +153,7 @@ class AddWorkerSkill extends Component {
                     value={this.state.description}
                     onChange={this.handleDescriptionChange}
                     placeholder="description"
+                    required
                   />
                 </FormGroup>
 
@@ -165,27 +163,27 @@ class AddWorkerSkill extends Component {
                     value={this.state.value}
                     onChange={this.handleHourRateChange}
                     placeholder="hourly charge"
+                    required
                   />
                 </FormGroup>
 
                 <FormGroup row style={{ marginTop: 20 }}>
+                  <Col xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }}>
+                    <Button
+                      color="success"
+                      onSubmit={this.handleAddSkill}
+                      style={{ width: 100 }}
+                    >
+                      Add
+                    </Button>
+                  </Col>
                   <Col xs={{ size: 5 }} sm={4}>
                     <Button
                       color="warning"
                       style={{ width: 100 }}
-                      //onClick={this.handleCancelAddingSkill}
+                      onClick={this.handleCancelAddingSkill}
                     >
                       Cancel
-                    </Button>
-                  </Col>
-
-                  <Col xs={{ size: 6, offset: 1 }} sm={{ size: 4, offset: 1 }}>
-                    <Button
-                      color="success"
-                      onClick={this.handleAddSkill}
-                      style={{ width: 100 }}
-                    >
-                      Add
                     </Button>
                   </Col>
                 </FormGroup>
