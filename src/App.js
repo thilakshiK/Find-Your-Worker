@@ -11,6 +11,7 @@ import ClientProfileComponent from "./components/Client/Profile/clientProfile";
 import BookingComponent from "./components/Client/Booking/booking";
 import ClientOrderComponent from "./components/Client/Orders/clientorders";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {PrivateRoute} from './privateRoute';
 
 function App() {
   return (
@@ -20,21 +21,21 @@ function App() {
           <Route exact path="/" component={WelcomeComponent}></Route>
           <Route path="/login" component={LoginFormComponent}></Route>
           <Route path="/signup" component={SingupFormComponent}></Route>
-          <Route
+          <PrivateRoute
             path="/workerProfile"
             component={WorkerProfileComponent}
-          ></Route>
-          <Route path="/workerJob" component={WorkerJobComponent}></Route>
-          <Route
+          ></PrivateRoute>
+          <PrivateRoute path="/workerJob" component={WorkerJobComponent}></PrivateRoute>
+          <PrivateRoute
             path="/workerRequest"
             component={WorkerRequestComponent}
-          ></Route>
-          <Route
+          ></PrivateRoute>
+          <PrivateRoute
             path="/clientProfile"
             component={ClientProfileComponent}
-          ></Route>
-          <Route path="/clientBooking" component={BookingComponent}></Route>
-          <Route path="/clientOrder" component={ClientOrderComponent}></Route>
+          ></PrivateRoute>
+          <PrivateRoute path="/clientBooking" component={BookingComponent}></PrivateRoute>
+          <PrivateRoute path="/clientOrder" component={ClientOrderComponent}></PrivateRoute>
         </Switch>
       </Router>
     </div>
