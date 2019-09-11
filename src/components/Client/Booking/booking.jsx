@@ -205,7 +205,9 @@ class BookingComponent extends Component {
           };
 
           axios
-            .post("http://localhost:3000/bookLater/sendRequest", sendReq)
+            .post("http://localhost:3000/bookLater/sendRequest", sendReq, {
+              withCredentials: true
+            })
             .then(response => {
               console.log("send request", response.data);
               this.setState({
