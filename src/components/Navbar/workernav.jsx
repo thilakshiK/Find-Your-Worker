@@ -73,7 +73,7 @@ export default class WorkerNavComponent extends Component {
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  <Link to="/"> Log Out </Link>
+                  <Link to="/" onClick = {() => localStorage.clear()}> Log Out </Link>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
