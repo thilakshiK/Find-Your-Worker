@@ -325,7 +325,7 @@ class WorkerEditProfileComponent extends Component {
           <Form
             id="enableEditWorkerDetails"
             style={{ marginTop: 40, marginLeft: 50, display: "none" }}
-            onSubmit={this.handleSubmit}
+            
           >
             <FormGroup row>
               <Label for="firstName" xs={12} sm={5}>
@@ -336,6 +336,7 @@ class WorkerEditProfileComponent extends Component {
                   type="text"
                   value={this.state.firstname}
                   onChange={this.handleFirstNameChange}
+                  required
                 />
               </Col>
             </FormGroup>
@@ -348,6 +349,7 @@ class WorkerEditProfileComponent extends Component {
                   type="text"
                   value={this.state.lastname}
                   onChange={this.handleLastNameChange}
+                  required
                 />
               </Col>
             </FormGroup>
@@ -361,6 +363,7 @@ class WorkerEditProfileComponent extends Component {
                   type="text"
                   value={this.state.phonenumber}
                   onChange={this.handlePhoneNumberChange}
+                  required
                 />
               </Col>
             </FormGroup>
@@ -381,7 +384,7 @@ class WorkerEditProfileComponent extends Component {
               <Col xs={{ size: 5 }} sm={5}>
                 <Button
                   color="success"
-                  onClick={this.handleUpdateProfile}
+                  onSubmit={this.handleUpdateProfile}
                   style={{ width: 140 }}
                 >
                   Update Profile
